@@ -13,7 +13,7 @@
 int main(int argc, const char * argv[])
 {
     std::ifstream infile;
-    infile.open("\\sample.es");
+    infile.open("sample.es");
      std::string program, token;
     while (!infile.eof() && infile.good())
     {
