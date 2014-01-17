@@ -13,9 +13,9 @@
 int main(int argc, const char * argv[])
 {
     std::ifstream infile;
-    infile.open("/Users/everettmoser/Documents/devel/evaluate/evaluate/sample.es");
+    infile.open("\\sample.es");
      std::string program, token;
-    while (!infile.eof())
+    while (!infile.eof() && infile.good())
     {
         infile >> token;
         program += token;
