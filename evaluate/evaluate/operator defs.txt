@@ -1,0 +1,224 @@
+LEGEND
+input1  op  input2        output
+------  --  ------        ------
+
+Mathematical operators
+compound mathemarical ops are evaluated like the following:
+a       +=  b       -     a = a + b
+a       -=  b       -     a = a - b
+a       *=  b       -     a = a * b
+a       /=  b       -     a = a / b
+a       %=  b       -     a = a % b
+a       ^=  b       -     a = a ^ b
+
+= (binary) assignment operator
+
+str     =   str     -     str
+str     =   num     -     str
+str     =   bool    -     str
+num     =   num     -     num
+num     =   bool    -     num
+num     =   str     -     error
+bool    =   bool    -     bool
+bool    =   num     -     bool
+bool    =   str     -     error
+
++ (binary) addition/concatination
+
+str     +   str     -     str
+str     +   num     -     str
+str     +   bool    -     str
+num     +   num     -     num
+num     +   str     -     str
+num     +   bool    -     num
+bool    +   bool    -     num
+bool    +   num     -     num
+bool    +   str     -     error
+
++ (unary) absolute value
+
+        +   str     -     error
+        +   num     -     num
+        +   bool    -     error
+
+- (binary) subtraction
+
+str     -   str     -     error
+str     -   num     -     error
+str     -   bool    -     error
+num     -   num     -     num
+num     -   str     -     error
+num     -   bool    -     num
+bool    -   bool    -     num
+bool    -   num     -     num
+bool    -   str     -     error
+
++ (unary) negative operator
+
+        -   str     -     error
+        -   num     -     num
+        -   bool    -     error
+
+* (binary) multiplication
+
+str     *   str     -     error
+str     *   num     -     error
+str     *   bool    -     error
+num     *   num     -     num
+num     *   str     -     error
+num     *   bool    -     num
+bool    *   bool    -     bool
+bool    *   num     -     num
+bool    *   str     -     error
+
+/ (binary) division
+
+str     /   str     -     error
+str     /   num     -     error
+str     /   bool    -     error
+num     /   num     -     num
+num     /   str     -     error
+num     /   bool    -     error
+bool    /   bool    -     error
+bool    /   num     -     num
+bool    /   str     -     error
+
+^ (binary) exponentiation
+
+str     ^   str     -     error
+str     ^   num     -     str
+str     ^   bool    -     str
+num     ^   num     -     num
+num     ^   str     -     error
+num     ^   bool    -     num
+bool    ^   bool    -     bool
+bool    ^   num     -     bool
+bool    ^   str     -     error
+
+% (binary) modulus division
+
+str     %   str     -     error
+str     %   num     -     error
+str     %   bool    -     error
+num     %   num     -     num
+num     %   str     -     error
+num     %   bool    -     error
+bool    %   bool    -     error
+bool    %   num     -     num
+bool    %   str     -     error
+
+Boolean operators
+
+! (unary) not operator
+
+        !   bool    -   bool
+        !   num     -   bool
+        !   str     -   error
+
+== (binary) direct comparison of equivalance
+
+str     ==   str     -    bool
+str     ==   num     -    bool
+str     ==   bool    -    bool
+num     ==   num     -    bool
+num     ==   str     -    bool
+num     ==   bool    -    bool
+bool    ==   bool    -    bool
+bool    ==   num     -    bool
+bool    ==   str     -    bool
+
+!= (binary) direct comparison of nonequivalence
+
+str     !=   str     -    bool
+str     !=   num     -    bool
+str     !=   bool    -    bool
+num     !=   num     -    bool
+num     !=   str     -    bool
+num     !=   bool    -    bool
+bool    !=   bool    -    bool
+bool    !=   num     -    bool
+bool    !=   str     -    bool
+
+> (binary) direct comparison greator than
+
+str     >   str     -     bool
+str     >   num     -     bool
+str     >   bool    -     bool
+num     >   num     -     bool
+num     >   str     -     bool
+num     >   bool    -     bool
+bool    >   bool    -     bool
+bool    >   num     -     bool
+bool    >   str     -     bool
+
+< (binary) direct comparison less than
+
+str     <   str     -     bool
+str     <   num     -     bool
+str     <   bool    -     bool
+num     <   num     -     bool
+num     <   str     -     bool
+num     <   bool    -     bool
+bool    <   bool    -     bool
+bool    <   num     -     bool
+bool    <   str     -     bool
+
+>= (binary) direct comparison greator than or equal too
+
+str     >=   str     -    bool
+str     >=   num     -    bool
+str     >=   bool    -    bool
+num     >=   num     -    bool
+num     >=   str     -    bool
+num     >=   bool    -    bool
+bool    >=   bool    -    bool
+bool    >=   num     -    bool
+bool    >=   str     -    bool
+
+<= (binary) direct comparison less than or equal too
+
+str     <=   str     -    bool
+str     <=   num     -    bool
+str     <=   bool    -    bool
+num     <=   num     -    bool
+num     <=   str     -    bool
+num     <=   bool    -    bool
+bool    <=   bool    -    bool
+bool    <=   num     -    bool
+bool    <=   str     -    bool
+
+&& (binary) and [then one]
+
+str     &&   str     -    error
+str     &&   num     -    error
+str     &&   bool    -    error
+num     &&   num     -    bool
+num     &&   str     -    error
+num     &&   bool    -    bool
+bool    &&   bool    -    bool
+bool    &&   num     -    bool
+bool    &&   str     -    error
+
+|| (binary) or [what now]
+
+str     ||   str     -    error
+str     ||   num     -    error
+str     ||   bool    -    error
+num     ||   num     -    bool
+num     ||   str     -    error
+num     ||   bool    -    bool
+bool    ||   bool    -    bool
+bool    ||   num     -    bool
+bool    ||   str     -    error
+
+^^ (binary) exclusive or
+
+str     ^^   str     -    error
+str     ^^   num     -    error
+str     ^^   bool    -    error
+num     ^^   num     -    bool
+num     ^^   str     -    error
+num     ^^   bool    -    bool
+bool    ^^   bool    -    bool
+bool    ^^   num     -    bool
+bool    ^^   str     -    error

@@ -1,0 +1,113 @@
+TT_NUMBER
+
+    regex for a number
+    -?((([0-9]+)?[.][0-9]+)|([0-9]+))
+    
+    examples:
+        1.0
+        23
+        .43
+        -123.42
+        -.23
+        -2434
+
+TT_STRING
+
+    regex for a string
+        (\"((\\.)|([^\\\"\n]))*\")|(\'((\\.)|([^\\\'\n]))*\')
+    
+    example:
+        "this is a string literal"
+        "this\\isa\stringlet\"eral"
+        'this too"'
+        "this'three"
+
+TT_BOOLEAN
+
+    regex for a boolean (SHAKEY)
+    
+        ((true)|(false))[^a-zA-Z0-9_]
+
+    an identifier which is one of the following:
+        true
+        false
+
+TT_KEYWORD
+
+    regex for a keyword (SHAKEY)
+    
+        ((if)|(else)|(while)|(for)|(void)|(null)|(num)|(str)|(bool)|(const))[^a-zA-Z0-9_]
+    
+    an identifier which is one of the following:
+        if
+        else
+        while
+        for
+        void
+        null
+        num
+        str
+        bool
+        const
+
+TT_IDENTIFIER
+
+    regex for an identifier
+        ([a-z]|[A-Z]|_)([a-z]|[A-Z]|_|[0-9])*
+
+TT_OPERATOR
+
+    regex for a valid operator:
+    
+        [+-*/^%=!><]=?
+
+    must be one of the following:
+        +
+        -
+        *
+        /
+        ^
+        %
+        =
+        +=
+        -=
+        *=
+        /=
+        %=
+        ^=
+        !
+        ==
+        !=
+        >
+        <
+        >=
+        <=
+        &&
+        ||
+        ^^
+
+TT_LANGSYM
+
+    regex for a language symbol:
+    
+        [\{\}\(\)\;\,\.]
+
+    must be one of the following:
+        {
+        }
+        (
+        )
+        ;
+        ,
+        .
+
+TT_WHITESPACE
+
+    regex for whitespace:
+        [ \t]+
+        
+    (basically either a tab or a space)
+
+TT_UNDEFINED
+
+    this should throw an error...

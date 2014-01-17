@@ -1,0 +1,22 @@
+Operator precidence (lower number, higher precidence)
+
+Sum and difference operators - 8
++, -
+
+multiplicative operators - 7
+*, /, %
+
+exponentiation operator - 5
+^
+
+Assignment operators - 20
+=, +=, -=, *=, /=, %=, ^=
+
+The not operator, and sign operators - 4
+!, +, -
+
+Boolean expression operators - 10
+==, !=, >, <, >=, <=
+
+Boolean operators - 15
+&&, ||, ^^

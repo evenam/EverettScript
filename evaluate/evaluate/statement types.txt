@@ -1,0 +1,12 @@
+declaring a variable
+
+    type identifier[ = expression];
+
+assignment expression
+
+    identifier = expression
+    
+defining a function
+
+    type identifier(argument_list) 
+        code_block;
