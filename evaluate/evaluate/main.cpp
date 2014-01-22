@@ -13,8 +13,8 @@
 int main(int argc, const char * argv[])
 {
     std::ifstream infile;
-    infile.open("/Users/everettmoser/Documents/devel/evaluate/evaluate/sample.es");
-     std::string program, token;
+    infile.open("/Users/everettmoser/EverettScript/evaluate/evaluate/sample.es");
+    std::string program, token;
     while (!infile.eof())
     {
         infile >> token;
@@ -22,17 +22,13 @@ int main(int argc, const char * argv[])
         program += " ";
     }
     
-    //std::cout << "program (regular):\n" << program << std::endl << std::endl;
-
-    //std::getline(std::cin, program);
-    
     TokenStream ts;
     ts << program;
+    
     Dictionary* d = Dictionary::getRef();
     Functionary* f = Functionary::getRef();
     
     parseProgram(ts);
-    //Functionary::getRef()->print();
     
     std::string ret = evaluate(Functionary::getRef()->getFunction("main")->getBody());
     

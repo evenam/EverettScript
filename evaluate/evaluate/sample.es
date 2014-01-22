@@ -28,7 +28,7 @@ str fib(num x)
 num main()
 {
     print("Hello, World!\n" ^ 10);
-    print(fib(10) + "\n");
-    print(str_val(fact(5)) + "\n");
+    print("\n" + fib(10) + "\n");
+    print(fact(5) + "\n");
     return 0;
 }

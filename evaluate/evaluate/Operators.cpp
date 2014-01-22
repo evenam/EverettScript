@@ -60,11 +60,18 @@ std::string addOp(DataType lhd, std::string lhs, DataType rhd, std::string rhs)
 {
     throwErrorIfNecessary(lhd);
     throwErrorIfNecessary(rhd);
-    if (lhd == VT_STRING && (rhd == VT_STRING || VT_BOOLEAN || VT_NUMBER))
+    if (lhd == VT_STRING && (rhd == VT_STRING || rhd == VT_BOOLEAN || rhd == VT_NUMBER))
     {
         std::string ret;
         ret = toCString(lhs);
         ret += (rhd == VT_STRING)?toCString(rhs):rhs;
+        return toLangString(ret);
+    }
+    else if (rhd == VT_STRING && (lhd == VT_STRING || lhd == VT_BOOLEAN || lhd == VT_NUMBER))
+    {
+        std::string ret;
+        ret = (lhd == VT_STRING)?toCString(lhs):lhs;
+        ret += toCString(rhs);
         return toLangString(ret);
     }
     else if (lhd == VT_NUMBER && rhd == VT_NUMBER)
