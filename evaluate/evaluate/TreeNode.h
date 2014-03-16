@@ -1,17 +1,7 @@
-//
-//  TreeNode.h
-//  evaluate
-//
-//  Created by Everett Moser on 1/1/14.
-//  Copyright (c) 2014 Everett Moser. All rights reserved.
-//
-
-#ifndef evaluate_TreeNode_h
-#define evaluate_TreeNode_h
+#ifndef __Evaluate_TreeNode__
+#define __Evaluate_TreeNode__
 
 #include <typeinfo>
-#include <string>
-#include <iostream>
 #include "DataType.h"
 
 class TreeNode

@@ -9,8 +9,6 @@
 #ifndef evaluate_DataType_h
 #define evaluate_DataType_h
 
-#include <string>
-
 enum DataType
 {
     VT_NUMBER,

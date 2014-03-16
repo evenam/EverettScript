@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="evaluate"
-	ProjectGUID="{26013ABE-4881-45C9-B61C-B48CC76D3A31}"
-	RootNamespace="evaluate"
+	Name="SyntaxChecker"
+	ProjectGUID="{598A3C2A-890A-406C-9E80-937105DF7C29}"
+	RootNamespace="SyntaxChecker"
 	TargetFrameworkVersion="196613"
 	>
 	<Platforms>
@@ -161,166 +161,18 @@
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
-			<File
-				RelativePath=".\Dictionary.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Errors.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Executor.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Function.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Functionary.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Functions.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\LangMisc.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\main.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Nodes.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Operators.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Parser.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Preprocessor.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Tokenizer.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\TokenStream.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Variable.cpp"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
-			<File
-				RelativePath=".\DataType.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Dictionary.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Errors.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Executor.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Function.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Functionary.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Functions.h"
-				>
-			</File>
-			<File
-				RelativePath=".\LangMisc.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Nodes.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Operators.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Parser.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Preprocessor.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Singleton.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Tokenizer.h"
-				>
-			</File>
-			<File
-				RelativePath=".\TokenStream.h"
-				>
-			</File>
-			<File
-				RelativePath=".\TreeNode.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Variable.h"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
-			<File
-				RelativePath=".\operator defs.txt"
-				>
-			</File>
-			<File
-				RelativePath=".\operator precidence.txt"
-				>
-			</File>
-			<File
-				RelativePath=".\sample.es"
-				>
-			</File>
-			<File
-				RelativePath=".\statement types.txt"
-				>
-			</File>
-			<File
-				RelativePath=".\token rules.txt"
-				>
-			</File>
 		</Filter>
 	</Files>
 	<Globals>

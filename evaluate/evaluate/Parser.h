@@ -16,6 +16,7 @@
 #include "Dictionary.h"
 
 // thank you ronald mak, no need for postfix --> stack --> tree, I can do it all from here :P
+// and here comes the stack (lol biting some words...)
 
 void parseProgram(TokenStream& ts);
 

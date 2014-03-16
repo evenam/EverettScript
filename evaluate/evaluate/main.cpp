@@ -12,8 +12,10 @@
 
 int main(int argc, const char * argv[])
 {
+	if (argc != 2)
+		improperProgramUsage();
     std::ifstream infile;
-    infile.open("/Users/everettmoser/EverettScript/evaluate/evaluate/sample.es");
+    infile.open(argv[1]);
     std::string program, token;
     while (!infile.eof())
     {
@@ -29,12 +31,15 @@ int main(int argc, const char * argv[])
     Functionary* f = Functionary::getRef();
     
     parseProgram(ts);
+
+	//Dictionary::getRef()->print();
+	//Functionary::getRef()->print();
     
     std::string ret = evaluate(Functionary::getRef()->getFunction("main")->getBody());
     
     std::cout << std::endl << "program exited returning " << ret << std::endl;
-    delete d;
-    delete f;
+	Dictionary::deleteRef();
+	Functionary::deleteRef();
     
     return 0;
 };

@@ -290,9 +290,10 @@ std::string executeFunctionCallNode(FunctionCallNode* node)
     }
     std::string ret;
     Dictionary::getRef()->increaseScope();
+        Function* f = Functionary::getRef()->getFunction(node->getIdentifier());
     for (int i = 0; i < node->getArguments().size(); i ++)
     {
-        Function* f = Functionary::getRef()->getFunction(node->getIdentifier());
+		Functionary *temp = Functionary::getRef();
         Dictionary::getRef()->addVar(f->getArguments()[i]->getName(), f->getArguments()[i]->getType(), evaluate(node->getArguments()[i]));
     }
     //Dictionary::getRef()->print();
@@ -310,5 +311,6 @@ std::string executeReturnNode(ReturnNode* node)
 
 std::string executeVariableIdentifierNode(VariableIdentifierNode* node)
 {
-    return Dictionary::getRef()->getVar(node->getIdentifier())->getVal();
+	Variable* var = Dictionary::getRef()->getVar(node->getIdentifier());
+    return var->getVal();
 }

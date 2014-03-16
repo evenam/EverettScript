@@ -59,12 +59,14 @@ Variable* parseVariable(TokenStream& ts)
     DataType dt;
     std::string id, g;
     dt = stringToDataType(ts.peek());
+	Variable* v;
     
     ts >> g;
     ts >> id;
     ts >> g;
         
-    return new Variable(dt, id);
+     v = new Variable(dt, id);
+	 return v;
 }
 
 Function* parseFunction(TokenStream& ts)
@@ -85,7 +87,9 @@ Function* parseFunction(TokenStream& ts)
     if (ts.peek() == ")")
         ts >> trash;
 
-    return new Function(ident, dt, args, parseStatement(ts));
+	TreeNode* statements = parseStatement(ts);
+
+	return new Function(ident, dt, args, statements);
 }
 
 TreeNode* parseStatement(TokenStream& ts)
@@ -122,7 +126,9 @@ TreeNode* parseCodeBlock(TokenStream& ts)
         return NULL;
     }
     
-    return new StatementNode(parseStatement(ts), parseCodeBlock(ts));
+	TreeNode* t1 = parseStatement(ts), *t2 = parseCodeBlock(ts);
+
+    return new StatementNode(t1, t2);
 }
 
 TreeNode* parseDeclaration(TokenStream& ts)
@@ -130,19 +136,26 @@ TreeNode* parseDeclaration(TokenStream& ts)
     DataType dt;
     std::string id, g;
     DeclarationNode* ret;
+	TreeNode* vid,* vex,* vdt;
+
     dt = stringToDataType(ts.peek());
     
     ts >> g;
     ts >> id;
     ts >> g;
+
+	vex = NULL;
+	vid = new VariableIdentifierNode(id);
+	vdt = new DataTypeNode(dt);
+
     if (g == "=")
     {
-        ret = new DeclarationNode(new DataTypeNode(dt), new VariableIdentifierNode(id), parseExpression(ts));
+        vex = parseExpression(ts);
         ts >> g;
     }
-    else
-        ret = new DeclarationNode(new DataTypeNode(dt), new VariableIdentifierNode(id), NULL);
     
+	ret = new DeclarationNode(vdt, vid, vex);
+
     return ret;
 }
 

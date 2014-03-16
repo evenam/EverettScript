@@ -14,6 +14,7 @@
 
 // Keep adding more specific error codes and such
 
+void improperProgramUsage();
 void unexpectedType(std::string expected, std::string got);
 void stringParseError(std::string dataType);
 void unrecognizedToken(std::string rem);

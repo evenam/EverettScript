@@ -12,11 +12,13 @@
 #include "Function.h"
 #include "Singleton.h"
 #include "LangMisc.h"
+#include <vector> 
 
 class Functionary : public Singleton<Functionary>
 {
 private:
-    std::vector<Function *> _functions;
+    Function* _functions[1024];
+	int _numFunc;
     Function* lookup(std::string name);
     Function* lookup(Function* func);
 public:
@@ -24,7 +26,7 @@ public:
     ~Functionary();
     
     void addFunction(Function* func);
-    void addFunction(std::string name, DataType returnType, std::vector<Variable*> args, TreeNode* body);
+	void addFunction(std::string name, DataType returnType, std::vector<Variable*> args, TreeNode* body);
     Function* getFunction(std::string name);
     void setFunction(std::string name, Function* new_func);
     void deleteFunction(Function* func);

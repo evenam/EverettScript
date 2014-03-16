@@ -1,6 +1,6 @@
 //
 //  Executor.h
-//  evaluate
+//  evaluate	
 //
 //  Created by Everett Moser on 1/3/14.
 //  Copyright (c) 2014 Everett Moser. All rights reserved.
@@ -49,7 +49,5 @@ inline bool checkExpressionNode(TreeNode* obj)
         return true;
     return false;
 }
-
-//std::string evaluate(TreeNode* node);
 
 #endif /* defined(__evaluate__Executor__) */

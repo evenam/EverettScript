@@ -18,16 +18,18 @@ class Function
 private:
     std::string _id;
     DataType _return;
-    std::vector<Variable*> _args;
+    Variable* _args[64];
     TreeNode* _body;
+	int _argsSize;
 public:
-    Function(std::string identifier, DataType returnType, std::vector<Variable*> args, TreeNode* body);
+	Function(std::string identifier, DataType returnType, std::vector<Variable*> args, TreeNode* body);
     ~Function();
     
     DataType getReturnType();
     std::string getIdentifier();
-    std::vector<Variable*> getArguments();
+    Variable** getArguments();
     TreeNode* getBody();
+	int getNumArgs();
 };
 
 #endif /* defined(__evaluate__Function__) */

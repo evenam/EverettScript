@@ -14,17 +14,17 @@ Function::Function(std::string identifier, DataType returnType, std::vector<Vari
 {
     _id = identifier;
     _return = returnType;
-    _args = args;
+	for (int i = -1; ++i < args.size(); _args[i] = args[i]);
     _body = body;
+	_argsSize = args.size();
 }
 
 Function::~Function()
 {
-    for (int i = 0; i < _args.size(); i ++)
+    for (int i = 0; i < _argsSize; i ++)
     {
         delete _args[i];
     }
-    _args.clear();
     delete _body;
 }
 
@@ -40,7 +40,7 @@ std::string Function::getIdentifier()
     return _id;
 }
 
-std::vector<Variable*> Function::getArguments()
+Variable** Function::getArguments()
 {
     return _args;
 }
@@ -48,4 +48,9 @@ std::vector<Variable*> Function::getArguments()
 TreeNode* Function::getBody()
 {
     return _body;
+}
+
+int Function::getNumArgs()
+{
+	return _argsSize;
 }

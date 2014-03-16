@@ -12,7 +12,7 @@
 
 Function* Functionary::lookup(std::string name)
 {
-    for (int i = 0; i < _functions.size(); i ++)
+    for (int i = 0; i < _numFunc; i ++)
     {
         if (_functions[i]->getIdentifier() == name)
             return (_functions[i]);
@@ -22,7 +22,7 @@ Function* Functionary::lookup(std::string name)
 
 Function* Functionary::lookup(Function* func)
 {
-    for (int i = 0; i < _functions.size(); i ++)
+    for (int i = 0; i < _numFunc; i ++)
     {
         if (_functions[i] == func)
             return (_functions[i]);
@@ -34,16 +34,15 @@ Function* Functionary::lookup(Function* func)
 
 Functionary::Functionary()
 {
-    _functions.clear();
+    _numFunc = 0;
 }
 
 Functionary::~Functionary()
 {
-    for (int i = 0; i < _functions.size(); i ++)
+    for (int i = 0; i < _numFunc; i ++)
     {
         delete _functions[i];
     }
-    _functions.clear();
 }
 
 // mutators :P
@@ -51,13 +50,13 @@ Functionary::~Functionary()
 void Functionary::addFunction(Function* func)
 {
     if (lookup(func) == NULL)
-        _functions.push_back(func);
+        _functions[_numFunc++] = func;
 }
 
 void Functionary::addFunction(std::string name, DataType returnType, std::vector<Variable*> args, TreeNode* body)
 {
-    if (lookup(name) == NULL);
-        _functions.push_back(new Function(name, returnType, args, body));
+    if (lookup(name) == NULL)
+        _functions[_numFunc++] = new Function(name, returnType, args, body);
 }
 
 Function* Functionary::getFunction(std::string name)
@@ -74,12 +73,16 @@ void Functionary::setFunction(std::string name, Function* new_func)
 
 void Functionary::deleteFunction(Function* func)
 {
-    for (std::vector<Function *>::iterator i = _functions.begin(); i != _functions.end(); i ++)
+    for (int i = 0; i < _numFunc; i ++)
     {
-        if ((* i) == func)
+        if (_functions[i] == func)
         {
-            delete (* i);
-            _functions.erase(i);
+            delete _functions[i];
+			_numFunc--;
+			for (int j = i; j < _numFunc; j ++)
+			{
+				_functions[j] = _functions[j + 1];
+			}
             return;
         }
     }
@@ -87,12 +90,16 @@ void Functionary::deleteFunction(Function* func)
 
 void Functionary::deleteFunction(std::string name)
 {
-    for (std::vector<Function *>::iterator i = _functions.begin(); i != _functions.end(); i ++)
+    for (int i = 0; i < _numFunc; i ++)
     {
-        if ((* i)->getIdentifier() == name)
+        if (_functions[i]->getIdentifier() == name)
         {
-            delete (* i);
-            _functions.erase(i);
+            delete _functions[i];
+			_numFunc--;
+			for (int j = i; j < _numFunc; j ++)
+			{
+				_functions[j] = _functions[j + 1];
+			}
             return;
         }
     }
@@ -119,10 +126,10 @@ DataType Functionary::getFunctionReturnType(std::string name)
 void Functionary::print()
 {
     std::cout << "Functionary: \n";
-    for (int i = 0; i < _functions.size(); i ++)
+    for (int i = 0; i < _numFunc; i ++)
     {
         std::cout << "\t" << dataTypeToString(_functions[i]->getReturnType()) << " " << _functions[i]->getIdentifier() << " ";
-        for (int j = 0; j < _functions[i]->getArguments().size(); j ++)
+        for (int j = 0; j < _functions[i]->getNumArgs(); j ++)
             std::cout << (_functions[i]->getArguments())[j]->getType() << " " << (_functions[i]->getArguments())[j]->getName() << ", ";
         std::cout << " *** \n";
         _functions[i]->getBody()->print(2);

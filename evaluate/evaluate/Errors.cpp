@@ -8,6 +8,12 @@
 
 #include "Errors.h"
 
+void improperProgramUsage()
+{
+	std::cout << "ERROR: IMPROPER PROGRAM USAGE\nUSAGE escript <program_name>" << std::endl;
+	exit(-1);
+}
+
 void unexpectedType(std::string expected, std::string got)
 {
     std::cout << "Expected " << expected << ". Got " << got << std::endl;

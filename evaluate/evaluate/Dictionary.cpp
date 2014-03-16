@@ -13,25 +13,31 @@
 Dictionary::Dictionary()
 {
     // initialize a base scope
-    _scope.push_back(new std::vector<Variable *>);
+	// _scope[SCOPE][VAR]
+	_scopeNum = 1;
+	for (int i = 0; i < 1024; i ++)
+	{
+		_varNum[i] = 0;
+		for (int j = 0; j < 1024; j ++)
+		{
+			_scope[i][j] = NULL;
+		}
+	}
 }
 
 Dictionary::~Dictionary()
 {
-    if (_scope.empty())
+    if (_scopeNum == 0)
         return;
-    for (std::vector<std::vector<Variable *> *>::iterator i = _scope.begin(); i != _scope.end();)
+    for (int i = 0; i < _scopeNum; i ++)
     {
-        if (!(* i)->empty())
+        if (_varNum[i] != 0)
         {
-            for (std::vector<Variable *>::iterator j = (* i)->begin(); j != (* i)->end();)
+            for (int j = 0; j < _varNum[i]; j ++)
             {
-                delete (* j);
-                (* i)->erase(j);
+                delete _scope[i][j];
             }
         }
-        delete (* i);
-        _scope.erase(i);
     }
 }
 
@@ -39,27 +45,24 @@ Dictionary::~Dictionary()
 
 void Dictionary::increaseScope()
 {
-    _scope.push_back(new std::vector<Variable *>);
+    _scopeNum++;
 }
 
 void Dictionary::decreaseScope()
 {
-    std::vector<Variable *> *old = _scope[_scope.size() - 1];
-    _scope.pop_back();
-    if (!old->empty())
+    if (_varNum[_scopeNum - 1] != 0)
     {
-        for (std::vector<Variable *>::iterator i = old->begin(); i != old->end();)
+        for (int j = 0; j < _varNum[_scopeNum - 1]; j ++)
         {
-            delete (* i);
-            old->erase(i);
+            delete _scope[_scopeNum - 1][j];
         }
     }
-    delete old;
+    _varNum[--_scopeNum] = 0;
 }
 
 int Dictionary::scope()
 {
-    return ((int)_scope.size() - 1);
+    return _scopeNum;
 }
 
 // low-level variable access
@@ -78,24 +81,26 @@ void Dictionary::setVar(std::string name, Variable* new_var)
 
 void Dictionary::addVar(Variable *var)
 {
-    if (lookupInScope(var) == NULL)
-        (_scope[_scope.size() - 1])->push_back(var);
+    if (lookupInScope(var) == NULL && _scopeNum > 0) // crazy array stuff from 3102
+		_scope[_scopeNum - 1][_varNum[_scopeNum - 1]++] = var;
 }
 
 void Dictionary::deleteVar(Variable *var)
 {
-    if (_scope.empty())
+    if (_scopeNum == 0)
         return;
-    for (std::vector<std::vector<Variable *> *>::iterator i = _scope.begin(); i != _scope.end(); i ++)
+    for (int i = 0; i < _scopeNum; i ++)
     {
-        if ((* i)->empty())
+        if (_varNum[i] == 0)
             continue;
-        for (std::vector<Variable *>::iterator j = (* i)->begin(); j != (* i)->end(); j ++)
+        for (int j = 0; i < _varNum[i]; j ++)
         {
-            if ((* j) == var)
+            if (_scope[i][j] == var)
             {
-                delete (* j);
-                (* i)->erase(j);
+                delete _scope[i][j];
+				_varNum[i]--;
+				for (int k = j; k < _varNum[i]; k ++)
+					_scope[i][k] = _scope[i][k + 1];
                 return;
             }
         }
@@ -105,22 +110,24 @@ void Dictionary::deleteVar(Variable *var)
 void Dictionary::addVar(std::string name, DataType type, std::string val = "")
 {
     if (lookupInScope(name) == NULL)
-        (_scope[_scope.size() - 1])->push_back(new Variable(type, name, val));
+        _scope[_scopeNum - 1][_varNum[_scopeNum - 1]++] = new Variable(type, name, val);
 }
 
 void Dictionary::deleteVar(std::string name)
 {
-    if (_scope.empty())
+    if (_scopeNum == 0)
         return;
     
-    if (_scope[_scope.size() - 1]->empty())
+    if (_scope[_scopeNum - 1]== 0)
         return;
-    for (std::vector<Variable *>::iterator j = _scope[_scope.size() - 1]->begin(); j != _scope[_scope.size() - 1]->end(); j ++)
-    {
-        if ((* j)->getName() == name)
+	for (int j = 0; j < _varNum[_scopeNum - 1]; j ++)
+	{
+        if (_scope[_scopeNum - 1][j]->getName() == name)
         {
-            delete (* j);
-            _scope[_scope.size() - 1]->erase(j);
+            delete _scope[_scopeNum - 1][j];
+			_varNum[_scopeNum - 1]--;
+			for (int i = j; i < _varNum[_scopeNum - 1]; i ++)
+				_scope[_scopeNum - 1][i] = _scope[_scopeNum - 1][i + 1];
             return;
         }
     }
@@ -170,16 +177,16 @@ std::string Dictionary::getVarVal(std::string name)
 
 Variable* Dictionary::lookup(std::string name)
 {
-    if (_scope.empty())
+    if (_scopeNum == 0)
         return NULL;
-    for (std::vector<std::vector<Variable *> *>::reverse_iterator i = _scope.rbegin(); i != _scope.rend(); i ++)
+    for (int i = _scopeNum - 1; i >= 0; i --)
     {
-        if ((* i)->empty())
+        if (_varNum[i] == 0)
             continue;
-        for (std::vector<Variable *>::iterator j = (* i)->begin(); j != (* i)->end(); j ++)
+        for (int j = 0; j < _varNum[i]; j ++)
         {
-            if ((* j)->getName() == name)
-                return (* j);
+            if (_scope[i][j]->getName() == name)
+                return _scope[i][j];
         }
     }
     return NULL;
@@ -187,30 +194,30 @@ Variable* Dictionary::lookup(std::string name)
 
 Variable* Dictionary::lookupInScope(std::string name)
 {
-    if (_scope.empty())
+    if (_scopeNum == 0)
         return NULL;
-    if ((* (_scope.end() - 1))->empty())
+    if (_varNum[_scopeNum - 1] == 0)
         return NULL;
-    for (std::vector<Variable *>::iterator i = (_scope[_scope.size() - 1])->begin(); i != (_scope[_scope.size() - 1])->end(); i ++)
-    {
-        if ((* i)->getName() == name)
-            return (* i);
+    for (int j = 0; j < _varNum[_scopeNum - 1]; j ++)
+	{
+        if (_scope[_scopeNum - 1][j]->getName() == name)
+            return _scope[_scopeNum - 1][j];
     }
     return NULL;
 }
 
 Variable* Dictionary::lookup(Variable* var)
 {
-    if (_scope.empty())
+    if (_scopeNum == 0)
         return NULL;
-    for (std::vector<std::vector<Variable *> *>::reverse_iterator i = _scope.rbegin(); i != _scope.rend(); i ++)
+    for (int i = _scopeNum - 1; i >= 0; i --)
     {
-        if ((* i)->empty())
+        if (_varNum[i] == 0)
             continue;
-        for (std::vector<Variable *>::iterator j = (* i)->begin() - 1; j != (* i)->end(); j ++)
+        for (int j = 0; j < _varNum[i]; j ++)
         {
-            if ((* j) == var)
-                return (* j);
+            if (_scope[i][j] == var)
+                return _scope[i][j];
         }
     }
     return NULL;
@@ -218,14 +225,14 @@ Variable* Dictionary::lookup(Variable* var)
 
 Variable* Dictionary::lookupInScope(Variable* var)
 {
-    if (_scope.empty())
+    if (_scopeNum == 0)
         return NULL;
-    if ((* (_scope.end() - 1))->empty())
+    if (_varNum[_scopeNum - 1] == 0)
         return NULL;
-    for (std::vector<Variable *>::iterator i = (_scope[_scope.size() - 1])->begin(); i != (_scope[_scope.size() - 1])->end(); i ++)
-    {
-        if ((* i) == var)
-            return (* i);
+    for (int j = 0; j < _varNum[_scopeNum - 1]; j ++)
+	{
+        if (_scope[_scopeNum - 1][j] == var)
+            return _scope[_scopeNum - 1][j];
     }
     return NULL;
 }
@@ -233,12 +240,12 @@ Variable* Dictionary::lookupInScope(Variable* var)
 void Dictionary::print()
 {
     std::cout << "Dictionary: \n";
-    for (int i = 0; i < _scope.size(); i ++)
+    for (int i = 0; i < _scopeNum; i ++)
     {
         std::cout << "\tScope level: " << i << std::endl;
-        for (int j = 0; j < _scope[i]->size(); j ++)
+        for (int j = 0; j < _varNum[i]; j ++)
         {
-            std::cout << dataTypeToString(_scope.at(i)->at(j)->getType()) << " " << _scope.at(i)->at(j)->getName() << " " << _scope.at(i)->at(j)->getVal() << std::endl;
+            std::cout << dataTypeToString(_scope[i][j]->getType()) << " " << _scope[i][j]->getName() << " " << _scope[i][j]->getVal() << std::endl;
         }
     }
 }

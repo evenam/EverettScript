@@ -19,7 +19,8 @@
 class Dictionary : public Singleton<Dictionary>
 {
 private:
-    std::vector<std::vector<Variable *> *> _scope;
+    Variable* _scope[1024][1024];
+	int _scopeNum, _varNum[1024];
     Variable* lookup(std::string name);
     Variable* lookupInScope(std::string name);
     Variable* lookup(Variable* var);
