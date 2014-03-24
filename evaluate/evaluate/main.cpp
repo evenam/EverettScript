@@ -27,9 +27,6 @@ int main(int argc, const char * argv[])
     TokenStream ts;
     ts << program;
     
-    Dictionary* d = Dictionary::getRef();
-    Functionary* f = Functionary::getRef();
-    
     parseProgram(ts);
 
 	//Dictionary::getRef()->print();
