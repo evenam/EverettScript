@@ -49,7 +49,7 @@ build/*
 *.mode1v3
 *.xcworkspace
 xcuserdata
-*.xcuserdatad
+*.xcuserdatad/
 
 #OS junk files
 [Tt]humbs.db
