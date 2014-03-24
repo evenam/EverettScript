@@ -15,7 +15,7 @@ public:
 template <class type>
 inline bool checkObjectType(TreeNode* obj)
 {
-    // std::cout << (typeid(*obj)).name() << (typeid(type)).name() << std::endl;
+    std::cout << (typeid(*obj)).name() << " " << (typeid(type)).name() << std::endl;
     if (obj == NULL)
         return false;
     return ((typeid(*obj)) == (typeid(type)));

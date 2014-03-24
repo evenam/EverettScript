@@ -40,6 +40,8 @@ int main(int argc, const char * argv[])
     std::cout << std::endl << "program exited returning " << ret << std::endl;
 	Dictionary::deleteRef();
 	Functionary::deleteRef();
+
+	system("PAUSE>nul");
     
     return 0;
 };

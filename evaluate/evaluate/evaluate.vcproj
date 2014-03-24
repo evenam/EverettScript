@@ -197,6 +197,10 @@
 				Name="EXECUTOR"
 				>
 				<File
+					RelativePath=".\CallStack.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Executor.cpp"
 					>
 				</File>
@@ -282,6 +286,10 @@
 			<Filter
 				Name="EXECUTOR"
 				>
+				<File
+					RelativePath=".\CallStack.h"
+					>
+				</File>
 				<File
 					RelativePath=".\Executor.h"
 					>
