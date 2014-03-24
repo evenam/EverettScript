@@ -27,6 +27,7 @@ str fib(num x)
 
 num main()
 {
+    print("fuck you! " ^ 10 + "\n");
     print("Hello, World!\n" ^ 10);
     print(fib(5));
     print(fact(5) + "\n");
