@@ -293,7 +293,7 @@ std::string executeFunctionCallNode(FunctionCallNode* node)
         Function* f = Functionary::getRef()->getFunction(node->getIdentifier());
     for (int i = 0; i < node->getArguments().size(); i ++)
     {
-		Functionary *temp = Functionary::getRef();
+		//Functionary *temp = Functionary::getRef();
         Dictionary::getRef()->addVar(f->getArguments()[i]->getName(), f->getArguments()[i]->getType(), evaluate(node->getArguments()[i]));
     }
     //Dictionary::getRef()->print();

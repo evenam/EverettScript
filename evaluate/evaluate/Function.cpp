@@ -14,9 +14,9 @@ Function::Function(std::string identifier, DataType returnType, std::vector<Vari
 {
     _id = identifier;
     _return = returnType;
-	for (int i = -1; ++i < args.size(); _args[i] = args[i]);
+	for (int i = -1; ++i < args.size(); _args[i] = args[i]) continue;
     _body = body;
-	_argsSize = args.size();
+	_argsSize = (int)args.size();
 }
 
 Function::~Function()
