@@ -18,11 +18,15 @@
 
 bool isBuiltin(std::string name);
 DataType getBuiltinDataType(std::string name);
+std::string builtIn(std::string name, std::vector<std::string> args);
 
 std::string print(std::string data);
 std::string str_fmt(std::string fmt, std::vector<std::string> args);
 std::string bool_val(std::string data);
 std::string num_val(std::string data);
 std::string str_val(std::string data);
+std::string scan();
+std::string get_line();
+std::string getc();
 
 #endif /* defined(__evaluate__Functions__) */

@@ -275,18 +275,12 @@ std::string executeStatementNode(StatementNode* node)
 
 std::string executeFunctionCallNode(FunctionCallNode* node)
 {
+    std::vector<std::string> fargs;
+    for (int i = 0; i < node->getArguments().size(); i ++)
+        fargs.push_back(evaluate(node->getArguments().at(i)));
     if (isBuiltin(node->getIdentifier()))
     {
-        if (node->getIdentifier() == "print")
-            return print(evaluate(node->getArguments().at(0)));
-        if (node->getIdentifier() == "str_fmt")
-            return "void";
-        if (node->getIdentifier() == "bool_val")
-            return bool_val(evaluate(node->getArguments().at(0)));
-        if (node->getIdentifier() == "num_val")
-            return num_val(evaluate(node->getArguments().at(0)));
-        if (node->getIdentifier() == "str_val")
-            return str_val(evaluate(node->getArguments().at(0)));
+        return builtIn(node->getIdentifier(), fargs);
     }
     std::string ret;
     Dictionary::getRef()->increaseScope();
@@ -294,7 +288,7 @@ std::string executeFunctionCallNode(FunctionCallNode* node)
     for (int i = 0; i < node->getArguments().size(); i ++)
     {
 		//Functionary *temp = Functionary::getRef();
-        Dictionary::getRef()->addVar(f->getArguments()[i]->getName(), f->getArguments()[i]->getType(), evaluate(node->getArguments()[i]));
+        Dictionary::getRef()->addVar(f->getArguments()[i]->getName(), f->getArguments()[i]->getType(), fargs[i]);
     }
     //Dictionary::getRef()->print();
     //Functionary::getRef()->print();

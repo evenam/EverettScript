@@ -38,7 +38,7 @@ int main(int argc, const char * argv[])
 	Dictionary::deleteRef();
 	Functionary::deleteRef();
 
-	system("PAUSE>nul");
+	//system("PAUSE>nul");
     
     return 0;
 };

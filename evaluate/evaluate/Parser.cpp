@@ -126,7 +126,8 @@ TreeNode* parseCodeBlock(TokenStream& ts)
         return NULL;
     }
     
-	TreeNode* t1 = parseStatement(ts), *t2 = parseCodeBlock(ts);
+	TreeNode* t1 = parseStatement(ts);
+    TreeNode* t2 = parseCodeBlock(ts);
 
     return new StatementNode(t1, t2);
 }
@@ -378,6 +379,7 @@ std::vector<TreeNode*> parseArgumentList(TokenStream& ts)
     std::vector<TreeNode*> ret;
     std::string garbage;
     ts >> garbage;
+    if (ts.peek() == ")") return ret;
     while (garbage != ")")
     {
         ret.push_back(parseExpression(ts));

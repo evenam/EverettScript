@@ -27,6 +27,8 @@ str fib(num x)
 
 num main()
 {
+    str name = scan();
+    print(str_fmt("Hello, \@\n", name));
     print("Hello, World!\n" ^ 10);
     print(fib(5));
     print(fact(5) + "\n");
