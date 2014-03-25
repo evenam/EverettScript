@@ -2,8 +2,9 @@
 #define __evaluate_CallStack__
 
 #include "Nodes.h"
+#include "Executor.h"
 
-#define DEFAULT_MAX_STACK_SIZE 1024
+#define DEFAULT_MAX_STACK_SIZE 1048576
 class CallStack;
 
 class CSNode
