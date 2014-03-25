@@ -20,6 +20,12 @@ bool isBuiltin(std::string name)
         return true;
     if (name == "num_val")
         return true;
+    if (name == "get_line")
+        return true;
+    if (name == "scan")
+        return true;
+    if (name == "getc")
+        return true;
     
     return false;
 }
@@ -36,8 +42,39 @@ DataType getBuiltinDataType(std::string name)
         return VT_STRING;
     if (name == "num_val")
         return VT_NUMBER;
+    if (name == "get_line")
+        return VT_STRING;
+    if (name == "scan")
+        return VT_STRING;
+    if (name == "getc")
+        return VT_STRING;
     
     return VT_UNDEFINED;
+}
+
+std::string builtIn(std::string name, std::vector<std::string> args)
+{
+    if (name == "print")
+        return print(args[0]);
+    if (name == "str_fmt")
+    {
+        std::string fmt = args[0];
+        args.erase(args.begin());
+        return str_fmt(fmt, args);
+    }
+    if (name == "bool_val")
+        return bool_val(args[0]);
+    if (name == "num_val")
+        return num_val(args[0]);
+    if (name == "str_val")
+        return str_val(args[0]);
+    if (name == "scan")
+        return scan();
+    if (name == "get_line")
+        return get_line();
+    if (name == "getc")
+        return getc();
+    return "void";
 }
 
 std::string print(std::string data)
@@ -50,9 +87,31 @@ std::string print(std::string data)
     return "void";
 }
 
-std::string str_fmt(std::string fmt, std::vector<std::string> args)
+std::string str_fmt(std::string fmt /* lang_str */, std::vector<std::string> args)
 {
-    return "";
+    std::string res = "";
+    int j = 0;
+    for (std::string::iterator i = fmt.begin(); i != fmt.end(); i++)
+    {
+        if ((*i) == '\\')
+        {
+            i ++;
+            if ((*i) == '@')
+            {
+                if (getTokenType(args[j]) == TT_STRING)
+                    args[j] = toCString(args[j]);
+                res += args[j++];
+            }
+            else
+            {
+                res += "\\";
+                res += (* i);
+            }
+        }
+        else
+            res += (*i);
+    }
+    return res;
 }
 
 std::string bool_val(std::string data)
@@ -86,4 +145,25 @@ std::string str_val(std::string data)
     else if (nextTokenType(data) == TT_BOOLEAN)
         return boolToString(data);
     return "";
+}
+
+std::string scan()
+{
+    std::string tkn;
+    std::cin >> tkn;
+    return tkn;
+}
+
+std::string get_line()
+{
+    std::string ret;
+    std::getline(std::cin, ret);
+    return ret;
+}
+
+std::string getc()
+{
+    std::string ret;
+    ret += (char)getchar();
+    return ret;
 }
