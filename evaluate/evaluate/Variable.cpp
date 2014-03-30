@@ -13,11 +13,11 @@
 Variable::Variable(DataType type, std::string name)
 {
     _type = type;
-    if (type == VT_BOOLEAN)
+    if (type == DT_BOOLEAN)
         _val = "false";
-    else if (type == VT_NUMBER)
+    else if (type == DT_NUMBER)
         _val = "0";
-    else if (type == VT_STRING)
+    else if (type == DT_STRING)
         _val = "\"\"";
     else
         _val = "null";

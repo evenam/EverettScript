@@ -8,8 +8,12 @@
 
 #include "Executor.h"
 
+bool isReturning = false;
+DataType returnType = DT_VOID;
+
 std::string executeBooleanNode(BooleanNode* node)
 {
+    returnType = DT_BOOLEAN;
     return (node->getValue());
 }
 
@@ -185,11 +189,11 @@ std::string executeConditionalNode(ConditionalNode* node)
     DataType edt = node->getExpression()->getReturnType();
     std::string exp_res, res;
     throwErrorIfNecessary(edt);
-    if (edt == VT_BOOLEAN)
+    if (edt == DT_BOOLEAN)
         exp_res = evaluate(node->getExpression());
-    else if (edt == VT_NUMBER)
+    else if (edt == DT_NUMBER)
         exp_res = numToBool(evaluate(node->getExpression()));
-    else if (edt == VT_STRING)
+    else if (edt == DT_STRING)
         exp_res = strToBool(evaluate(node->getExpression()));
     
     if (exp_res == "true" && node->getTrueClause() != NULL)
@@ -217,13 +221,13 @@ std::string executeDeclarationNode(DeclarationNode* node)
 {
     if (node->getExpression() == NULL)
     {
-        Dictionary::getRef()->addVar(dynamic_cast<VariableIdentifierNode*>(node->getIdentifier())->getIdentifier(), dynamic_cast<DataTypeNode*>(node->getDataType())->getDataType(), "");
+        Dictionary::getRef()->addVar(dynamic_cast<VariableIdentifierNode*>(node->getIdentifier())->getIdentifier(), dynamic_cast<DeclarationNode*>(node)->getDataType(), "");
         return dynamic_cast<VariableIdentifierNode*>(node->getIdentifier())->getIdentifier();
     }
     else
     {
         std::string ret = evaluate(node->getExpression());
-        Dictionary::getRef()->addVar(dynamic_cast<VariableIdentifierNode*>(node->getIdentifier())->getIdentifier(), dynamic_cast<DataTypeNode*>(node->getDataType())->getDataType(), ret);
+        Dictionary::getRef()->addVar(dynamic_cast<VariableIdentifierNode*>(node->getIdentifier())->getIdentifier(), dynamic_cast<DeclarationNode*>(node)->getDataType(), ret);
         return "void";
     }
 }
@@ -233,11 +237,11 @@ std::string executeLoopNode(LoopNode* node)
     DataType edt = node->getExpression()->getReturnType();
     std::string exp_res, res;
     throwErrorIfNecessary(edt);
-    if (edt == VT_BOOLEAN)
+    if (edt == DT_BOOLEAN)
         exp_res = evaluate(node->getExpression());
-    else if (edt == VT_NUMBER)
+    else if (edt == DT_NUMBER)
         exp_res = numToBool(evaluate(node->getExpression()));
-    else if (edt == VT_STRING)
+    else if (edt == DT_STRING)
         exp_res = strToBool(evaluate(node->getExpression()));
     
     while (exp_res == "true")
@@ -250,11 +254,11 @@ std::string executeLoopNode(LoopNode* node)
             return res;
         
         
-        if (edt == VT_BOOLEAN)
+        if (edt == DT_BOOLEAN)
             exp_res = evaluate(node->getExpression());
-        else if (edt == VT_NUMBER)
+        else if (edt == DT_NUMBER)
             exp_res = numToBool(evaluate(node->getExpression()));
-        else if (edt == VT_STRING)
+        else if (edt == DT_STRING)
             exp_res = strToBool(evaluate(node->getExpression()));
         
     }
@@ -265,11 +269,7 @@ std::string executeStatementNode(StatementNode* node)
 {
     std::string ret;
     if (node->getCurrent() != NULL)
-        ret = evaluate(node->getCurrent());
-    if (ret != "void" && !checkExpressionNode(node->getCurrent()))
-        return ret;
-    if (node->getNext() == NULL)
-        return "void";
+        return evaluate(node->getCurrent());
     return evaluate(node->getNext());
 }
 
@@ -286,12 +286,7 @@ std::string executeFunctionCallNode(FunctionCallNode* node)
     Dictionary::getRef()->increaseScope();
         Function* f = Functionary::getRef()->getFunction(node->getIdentifier());
     for (int i = 0; i < node->getArguments().size(); i ++)
-    {
-		//Functionary *temp = Functionary::getRef();
         Dictionary::getRef()->addVar(f->getArguments()[i]->getName(), f->getArguments()[i]->getType(), fargs[i]);
-    }
-    //Dictionary::getRef()->print();
-    //Functionary::getRef()->print();
     ret = evaluate(Functionary::getRef()->getFunction(node->getIdentifier())->getBody());
     Dictionary::getRef()->decreaseScope();
     return ret;
@@ -300,11 +295,12 @@ std::string executeFunctionCallNode(FunctionCallNode* node)
 std::string executeReturnNode(ReturnNode* node)
 {
     std::string x = evaluate(node->getExpression());
+    
     return x;
 }
 
 std::string executeVariableIdentifierNode(VariableIdentifierNode* node)
 {
 	Variable* var = Dictionary::getRef()->getVar(node->getIdentifier());
-    return var->getVal();
+    return var->getName();
 }

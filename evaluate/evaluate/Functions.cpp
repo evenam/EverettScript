@@ -33,23 +33,23 @@ bool isBuiltin(std::string name)
 DataType getBuiltinDataType(std::string name)
 {
     if (name == "print")
-        return VT_VOID;
+        return DT_VOID;
     if (name == "str_fmt")
-        return VT_STRING;
+        return DT_STRING;
     if (name == "bool_val")
-        return VT_BOOLEAN;
+        return DT_BOOLEAN;
     if (name == "str_val")
-        return VT_STRING;
+        return DT_STRING;
     if (name == "num_val")
-        return VT_NUMBER;
+        return DT_NUMBER;
     if (name == "get_line")
-        return VT_STRING;
+        return DT_STRING;
     if (name == "scan")
-        return VT_STRING;
+        return DT_STRING;
     if (name == "getc")
-        return VT_STRING;
+        return DT_STRING;
     
-    return VT_UNDEFINED;
+    return DT_UNDEFINED;
 }
 
 std::string builtIn(std::string name, std::vector<std::string> args)

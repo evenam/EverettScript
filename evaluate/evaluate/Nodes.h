@@ -30,18 +30,6 @@ public:
     DataType getReturnType();
 };
 
-class DataTypeNode : public TreeNode
-{
-private:
-    DataType _dt;
-public:
-    DataTypeNode(DataType data_type);
-    ~DataTypeNode();
-    DataType getDataType();
-    void print(int tabIndex);
-    DataType getReturnType();
-};
-
 class NumberNode : public TreeNode
 {
 private:
@@ -123,13 +111,13 @@ public:
 class DeclarationNode : public TreeNode
 {
 private:
-    TreeNode* _dt;
+    DataType _dt;
     TreeNode* _id;
     TreeNode* _exp;
 public:
-    DeclarationNode(TreeNode* data_type, TreeNode* identifier, TreeNode* expression);
+    DeclarationNode(DataType data_type, TreeNode* identifier, TreeNode* expression);
     ~DeclarationNode();
-    TreeNode* getDataType();
+    DataType getDataType();
     TreeNode* getIdentifier();
     TreeNode* getExpression();
     void print(int tabIndex);

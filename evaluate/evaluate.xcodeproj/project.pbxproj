@@ -19,7 +19,6 @@
 		2886ACB018763E2800FB82AC /* Functionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2886ACAE18763E2800FB82AC /* Functionary.cpp */; };
 		2886ACB318763E9500FB82AC /* Function.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2886ACB118763E9500FB82AC /* Function.cpp */; };
 		28B4F90C184AF4E3004CA221 /* Errors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 28B4F90A184AF4E3004CA221 /* Errors.cpp */; };
-		28BDC36818E0F1B50064B8B4 /* CallStack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 28BDC36618E0F1B50064B8B4 /* CallStack.cpp */; };
 		28C2A5FB1874C61F0093B9C2 /* Tokenizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 28C2A5F91874C61F0093B9C2 /* Tokenizer.cpp */; };
 		28D6E898183BE83600AA785F /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 28D6E897183BE83600AA785F /* main.cpp */; };
 		28D6E89A183BE83600AA785F /* evaluate.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 28D6E899183BE83600AA785F /* evaluate.1 */; };
@@ -70,8 +69,6 @@
 		2886ACB91876A76E00FB82AC /* sample.es */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sample.es; sourceTree = "<group>"; };
 		28B4F90A184AF4E3004CA221 /* Errors.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Errors.cpp; sourceTree = "<group>"; };
 		28B4F90B184AF4E3004CA221 /* Errors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Errors.h; sourceTree = "<group>"; };
-		28BDC36618E0F1B50064B8B4 /* CallStack.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CallStack.cpp; sourceTree = "<group>"; };
-		28BDC36718E0F1B50064B8B4 /* CallStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CallStack.h; sourceTree = "<group>"; };
 		28C2A5F91874C61F0093B9C2 /* Tokenizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Tokenizer.cpp; sourceTree = "<group>"; };
 		28C2A5FA1874C61F0093B9C2 /* Tokenizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tokenizer.h; sourceTree = "<group>"; };
 		28D056311874D37300515ACB /* TreeNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TreeNode.h; sourceTree = "<group>"; };
@@ -106,8 +103,6 @@
 		28488318187888CD00B2A247 /* Executor */ = {
 			isa = PBXGroup;
 			children = (
-				28BDC36618E0F1B50064B8B4 /* CallStack.cpp */,
-				28BDC36718E0F1B50064B8B4 /* CallStack.h */,
 				2803EB85187787A20037F197 /* Executor.cpp */,
 				2803EB86187787A20037F197 /* Executor.h */,
 				2848831918789C9D00B2A247 /* Operators.cpp */,
@@ -256,7 +251,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				28BDC36818E0F1B50064B8B4 /* CallStack.cpp in Sources */,
 				2886ACAA18762CFB00FB82AC /* Variable.cpp in Sources */,
 				2886ACB018763E2800FB82AC /* Functionary.cpp in Sources */,
 				28B4F90C184AF4E3004CA221 /* Errors.cpp in Sources */,

@@ -11,7 +11,7 @@
 std::string absoluteValue(DataType dval, std::string val)
 {
     throwErrorIfNecessary(dval);
-    if (dval != VT_NUMBER)
+    if (dval != DT_NUMBER)
         unexpectedType("num", dataTypeToString(dval));
     
     std::stringstream ret;
@@ -26,7 +26,7 @@ std::string absoluteValue(DataType dval, std::string val)
 std::string negateValue(DataType dval, std::string val)
 {
     throwErrorIfNecessary(dval);
-    if (dval != VT_NUMBER)
+    if (dval != DT_NUMBER)
         unexpectedType("num", dataTypeToString(dval));
     
     std::stringstream ret;
@@ -40,10 +40,10 @@ std::string negateValue(DataType dval, std::string val)
 std::string notValue(DataType dval, std::string val)
 {
     throwErrorIfNecessary(dval);
-    if (dval != VT_NUMBER && dval != VT_BOOLEAN)
+    if (dval != DT_NUMBER && dval != DT_BOOLEAN)
         unexpectedType("num or bool", dataTypeToString(dval));
     
-    if (dval == VT_BOOLEAN)
+    if (dval == DT_BOOLEAN)
     {
         if (val == "true")
             return "false";
@@ -60,21 +60,21 @@ std::string addOp(DataType lhd, std::string lhs, DataType rhd, std::string rhs)
 {
     throwErrorIfNecessary(lhd);
     throwErrorIfNecessary(rhd);
-    if (lhd == VT_STRING && (rhd == VT_STRING || rhd == VT_BOOLEAN || rhd == VT_NUMBER))
+    if (lhd == DT_STRING && (rhd == DT_STRING || rhd == DT_BOOLEAN || rhd == DT_NUMBER))
     {
         std::string ret;
         ret = toCString(lhs);
-        ret += (rhd == VT_STRING)?toCString(rhs):rhs;
+        ret += (rhd == DT_STRING)?toCString(rhs):rhs;
         return toLangString(ret);
     }
-    else if (rhd == VT_STRING && (lhd == VT_STRING || lhd == VT_BOOLEAN || lhd == VT_NUMBER))
+    else if (rhd == DT_STRING && (lhd == DT_STRING || lhd == DT_BOOLEAN || lhd == DT_NUMBER))
     {
         std::string ret;
-        ret = (lhd == VT_STRING)?toCString(lhs):lhs;
+        ret = (lhd == DT_STRING)?toCString(lhs):lhs;
         ret += toCString(rhs);
         return toLangString(ret);
     }
-    else if (lhd == VT_NUMBER && rhd == VT_NUMBER)
+    else if (lhd == DT_NUMBER && rhd == DT_NUMBER)
     {
         std::stringstream res;
         res.setf(std::ios::fixed);
@@ -82,7 +82,7 @@ std::string addOp(DataType lhd, std::string lhs, DataType rhd, std::string rhs)
         res << (left + right);
         return trimNumber(res.str());
     }
-    else if (lhd == VT_NUMBER && rhd == VT_BOOLEAN)
+    else if (lhd == DT_NUMBER && rhd == DT_BOOLEAN)
     {
         std::stringstream res;
         res.setf(std::ios::fixed);
@@ -90,7 +90,7 @@ std::string addOp(DataType lhd, std::string lhs, DataType rhd, std::string rhs)
         res << (left + right);
         return trimNumber(res.str());
     }
-    else if (lhd == VT_BOOLEAN && rhd == VT_NUMBER)
+    else if (lhd == DT_BOOLEAN && rhd == DT_NUMBER)
     {
         std::stringstream res;
         res.setf(std::ios::fixed);
@@ -98,7 +98,7 @@ std::string addOp(DataType lhd, std::string lhs, DataType rhd, std::string rhs)
         res << (left + right);
         return trimNumber(res.str());
     }
-    else if (lhd == VT_BOOLEAN && rhd == VT_BOOLEAN)
+    else if (lhd == DT_BOOLEAN && rhd == DT_BOOLEAN)
     {
         std::stringstream res;
         res.setf(std::ios::fixed);
@@ -115,18 +115,18 @@ std::string subOp(DataType lhd, std::string lhs, DataType rhd, std::string rhs)
 {
     throwErrorIfNecessary(lhd);
     throwErrorIfNecessary(rhd);
-    if (!((lhd == VT_NUMBER || lhd == VT_BOOLEAN) && (rhd == VT_NUMBER || rhd == VT_BOOLEAN)))
+    if (!((lhd == DT_NUMBER || lhd == DT_BOOLEAN) && (rhd == DT_NUMBER || rhd == DT_BOOLEAN)))
         unexpectedType("num or bool", "string");
     
     float l, r;
     std::stringstream ss;
     ss.setf(std::ios::fixed);
-    if (lhd == VT_BOOLEAN)
+    if (lhd == DT_BOOLEAN)
         l = atof(boolToNum(lhs).c_str());
     else
         l = atof(lhs.c_str());
     
-    if (rhd == VT_BOOLEAN)
+    if (rhd == DT_BOOLEAN)
         r = atof(boolToNum(rhs).c_str());
     else
         r = atof(rhs.c_str());
@@ -139,24 +139,24 @@ std::string mulOp(DataType lhd, std::string lhs, DataType rhd, std::string rhs)
 {
     throwErrorIfNecessary(lhd);
     throwErrorIfNecessary(rhd);
-    if (!(lhd == VT_NUMBER || lhd == VT_BOOLEAN) && !(rhd == VT_NUMBER || rhd == VT_BOOLEAN))
+    if (!(lhd == DT_NUMBER || lhd == DT_BOOLEAN) && !(rhd == DT_NUMBER || rhd == DT_BOOLEAN))
         unexpectedType("num or bool", "string");
     
     float l, r;
     std::stringstream ss;
     ss.setf(std::ios::fixed);
-    if (lhd == VT_BOOLEAN)
+    if (lhd == DT_BOOLEAN)
         l = atof(boolToNum(lhs).c_str());
     else
         l = atof(lhs.c_str());
     
-    if (rhd == VT_BOOLEAN)
+    if (rhd == DT_BOOLEAN)
         r = atof(boolToNum(rhs).c_str());
     else
         r = atof(rhs.c_str());
     
     ss << (l * r);
-    if (lhd == VT_BOOLEAN && rhd == VT_BOOLEAN)
+    if (lhd == DT_BOOLEAN && rhd == DT_BOOLEAN)
         return numToBool(ss.str());
     return trimNumber(ss.str());
 }
@@ -165,18 +165,18 @@ std::string divOp(DataType lhd, std::string lhs, DataType rhd, std::string rhs)
 {
     throwErrorIfNecessary(lhd);
     throwErrorIfNecessary(rhd);
-    if (!(lhd == VT_NUMBER || lhd == VT_BOOLEAN) && rhd != VT_NUMBER)
+    if (!(lhd == DT_NUMBER || lhd == DT_BOOLEAN) && rhd != DT_NUMBER)
         unexpectedType("num or bool", "string");
     
     float l, r;
     std::stringstream ss;
     ss.setf(std::ios::fixed);
-    if (lhd == VT_BOOLEAN)
+    if (lhd == DT_BOOLEAN)
         l = atof(boolToNum(lhs).c_str());
     else
         l = atof(lhs.c_str());
     
-    if (rhd == VT_BOOLEAN)
+    if (rhd == DT_BOOLEAN)
         r = atof(boolToNum(rhs).c_str());
     else
         r = atof(rhs.c_str());
@@ -192,18 +192,18 @@ std::string modOp(DataType lhd, std::string lhs, DataType rhd, std::string rhs)
 {
     throwErrorIfNecessary(lhd);
     throwErrorIfNecessary(rhd);
-    if (!(lhd == VT_NUMBER || lhd == VT_BOOLEAN) && rhd != VT_NUMBER)
+    if (!(lhd == DT_NUMBER || lhd == DT_BOOLEAN) && rhd != DT_NUMBER)
         unexpectedType("num or bool", "string");
     
     float l, r;
     std::stringstream ss;
     ss.setf(std::ios::fixed);
-    if (lhd == VT_BOOLEAN)
+    if (lhd == DT_BOOLEAN)
         l = atof(boolToNum(lhs).c_str());
     else
         l = atof(lhs.c_str());
     
-    if (rhd == VT_BOOLEAN)
+    if (rhd == DT_BOOLEAN)
         r = atof(boolToNum(rhs).c_str());
     else
         r = atof(rhs.c_str());
@@ -219,14 +219,14 @@ std::string expOp(DataType lhd, std::string lhs, DataType rhd, std::string rhs)
 {
     throwErrorIfNecessary(lhd);
     throwErrorIfNecessary(rhd);
-    if (!(rhd == VT_NUMBER || rhd == VT_BOOLEAN))
+    if (!(rhd == DT_NUMBER || rhd == DT_BOOLEAN))
         unexpectedType("num or bool", dataTypeToString(rhd));
-    if (lhd == VT_STRING && (rhd == VT_NUMBER || rhd == VT_BOOLEAN))
+    if (lhd == DT_STRING && (rhd == DT_NUMBER || rhd == DT_BOOLEAN))
     {
         std::stringstream ss;
         ss.setf(std::ios::fixed);
         int lim;
-        if (rhd == VT_BOOLEAN)
+        if (rhd == DT_BOOLEAN)
             lim = atof(boolToNum(rhs).c_str());
         else
             lim = atof(rhs.c_str());
@@ -240,18 +240,18 @@ std::string expOp(DataType lhd, std::string lhs, DataType rhd, std::string rhs)
     float l, r;
     std::stringstream ss;
     ss.setf(std::ios::fixed);
-    if (lhd == VT_BOOLEAN)
+    if (lhd == DT_BOOLEAN)
         l = atof(boolToNum(lhs).c_str());
     else
         l = atof(lhs.c_str());
     
-    if (rhd == VT_BOOLEAN)
+    if (rhd == DT_BOOLEAN)
         r = atof(boolToNum(rhs).c_str());
     else
         r = atof(rhs.c_str());
     
     ss << (pow(l, r));
-    if (lhd == VT_BOOLEAN && rhd == VT_BOOLEAN)
+    if (lhd == DT_BOOLEAN && rhd == DT_BOOLEAN)
         return numToBool(ss.str());
     return trimNumber(ss.str());
 }
@@ -260,36 +260,36 @@ std::string greOp(DataType lhd, std::string lhs, DataType rhd, std::string rhs)
 {
     throwErrorIfNecessary(lhd);
     throwErrorIfNecessary(rhd);
-    if (lhd == VT_STRING)
+    if (lhd == DT_STRING)
     {
         return ((lhs > rhs)?"true":"false");
     }
-    else if (lhd == VT_NUMBER)
+    else if (lhd == DT_NUMBER)
     {
-        if (rhd == VT_STRING)
+        if (rhd == DT_STRING)
         {
             return ((atof(lhs.c_str()) > atof(stringToNum(rhs).c_str()))?"true":"false");
         }
-        else if (rhd == VT_NUMBER)
+        else if (rhd == DT_NUMBER)
         {
             return ((atof(lhs.c_str()) > atof(rhs.c_str()))?"true":"false");
         }
-        else if (rhd == VT_BOOLEAN)
+        else if (rhd == DT_BOOLEAN)
         {
             return ((atof(lhs.c_str()) > atof(boolToNum(rhs).c_str()))?"true":"false");
         }
     }
-    else if (lhd == VT_BOOLEAN)
+    else if (lhd == DT_BOOLEAN)
     {
-        if (rhd == VT_STRING)
+        if (rhd == DT_STRING)
         {
             return ((lhs == "true" && strToBool(rhs) == "false")?"true":"false");
         }
-        else if (rhd == VT_NUMBER)
+        else if (rhd == DT_NUMBER)
         {
             return ((lhs == "true" && numToBool(rhs) == "false")?"true":"false");
         }
-        else if (rhd == VT_BOOLEAN)
+        else if (rhd == DT_BOOLEAN)
         {
             return ((lhs == "true" && rhs == "false")?"true":"false");
         }
@@ -302,36 +302,36 @@ std::string lesOp(DataType lhd, std::string lhs, DataType rhd, std::string rhs)
 {
     throwErrorIfNecessary(lhd);
     throwErrorIfNecessary(rhd);
-    if (lhd == VT_STRING)
+    if (lhd == DT_STRING)
     {
         return ((lhs < rhs)?"true":"false");
     }
-    else if (lhd == VT_NUMBER)
+    else if (lhd == DT_NUMBER)
     {
-        if (rhd == VT_STRING)
+        if (rhd == DT_STRING)
         {
             return ((atof(lhs.c_str()) < atof(stringToNum(rhs).c_str()))?"true":"false");
         }
-        else if (rhd == VT_NUMBER)
+        else if (rhd == DT_NUMBER)
         {
             return ((atof(lhs.c_str()) < atof(rhs.c_str()))?"true":"false");
         }
-        else if (rhd == VT_BOOLEAN)
+        else if (rhd == DT_BOOLEAN)
         {
             return ((atof(lhs.c_str()) < atof(boolToNum(rhs).c_str()))?"true":"false");
         }
     }
-    else if (lhd == VT_BOOLEAN)
+    else if (lhd == DT_BOOLEAN)
     {
-        if (rhd == VT_STRING)
+        if (rhd == DT_STRING)
         {
             return ((lhs == "false" && strToBool(rhs) == "false")?"true":"false");
         }
-        else if (rhd == VT_NUMBER)
+        else if (rhd == DT_NUMBER)
         {
             return ((lhs == "false" && numToBool(rhs) == "true")?"true":"false");
         }
-        else if (rhd == VT_BOOLEAN)
+        else if (rhd == DT_BOOLEAN)
         {
             return ((lhs == "false" && rhs == "true")?"true":"false");
         }
@@ -344,36 +344,36 @@ std::string equOp(DataType lhd, std::string lhs, DataType rhd, std::string rhs)
 {
     throwErrorIfNecessary(lhd);
     throwErrorIfNecessary(rhd);
-    if (lhd == VT_STRING)
+    if (lhd == DT_STRING)
     {
         return ((lhs == rhs)?"true":"false");
     }
-    else if (lhd == VT_NUMBER)
+    else if (lhd == DT_NUMBER)
     {
-        if (rhd == VT_STRING)
+        if (rhd == DT_STRING)
         {
             return ((atof(lhs.c_str()) == atof(stringToNum(rhs).c_str()))?"true":"false");
         }
-        else if (rhd == VT_NUMBER)
+        else if (rhd == DT_NUMBER)
         {
             return ((atof(lhs.c_str()) == atof(rhs.c_str()))?"true":"false");
         }
-        else if (rhd == VT_BOOLEAN)
+        else if (rhd == DT_BOOLEAN)
         {
             return ((atof(lhs.c_str()) == atof(boolToNum(rhs).c_str()))?"true":"false");
         }
     }
-    else if (lhd == VT_BOOLEAN)
+    else if (lhd == DT_BOOLEAN)
     {
-        if (rhd == VT_STRING)
+        if (rhd == DT_STRING)
         {
             return ((lhs == strToBool(rhs))?"true":"false");
         }
-        else if (rhd == VT_NUMBER)
+        else if (rhd == DT_NUMBER)
         {
             return ((lhs == numToBool(rhs))?"true":"false");
         }
-        else if (rhd == VT_BOOLEAN)
+        else if (rhd == DT_BOOLEAN)
         {
             return ((lhs == rhs)?"true":"false");
         }
@@ -419,7 +419,7 @@ std::string neqOp(DataType lhd, std::string lhs, DataType rhd, std::string rhs)
 {
     throwErrorIfNecessary(lhd);
     throwErrorIfNecessary(rhd);
-    return notValue(VT_BOOLEAN, equOp(lhd, lhs, rhd, rhs));
+    return notValue(DT_BOOLEAN, equOp(lhd, lhs, rhd, rhs));
 }
 
 std::string andOp(DataType lhd, std::string lhs, DataType rhd, std::string rhs)
@@ -427,11 +427,11 @@ std::string andOp(DataType lhd, std::string lhs, DataType rhd, std::string rhs)
     throwErrorIfNecessary(lhd);
     throwErrorIfNecessary(rhd);
     std::string s1, s2;
-    if (lhd == VT_NUMBER)
+    if (lhd == DT_NUMBER)
     {
         s1 = numToBool(lhs);
     }
-    else if (lhd == VT_STRING)
+    else if (lhd == DT_STRING)
     {
         s1 = strToBool(lhs);
     }
@@ -440,11 +440,11 @@ std::string andOp(DataType lhd, std::string lhs, DataType rhd, std::string rhs)
         s1 = lhs;
     }
     
-    if (rhd == VT_NUMBER)
+    if (rhd == DT_NUMBER)
     {
         s2 = numToBool(rhs);
     }
-    else if (rhd == VT_STRING)
+    else if (rhd == DT_STRING)
     {
         s2 = strToBool(rhs);
     }
@@ -463,11 +463,11 @@ std::string rorOp(DataType lhd, std::string lhs, DataType rhd, std::string rhs)
     throwErrorIfNecessary(lhd);
     throwErrorIfNecessary(rhd);
     std::string s1, s2;
-    if (lhd == VT_NUMBER)
+    if (lhd == DT_NUMBER)
     {
         s1 = numToBool(lhs);
     }
-    else if (lhd == VT_STRING)
+    else if (lhd == DT_STRING)
     {
         s1 = strToBool(lhs);
     }
@@ -476,11 +476,11 @@ std::string rorOp(DataType lhd, std::string lhs, DataType rhd, std::string rhs)
         s1 = lhs;
     }
     
-    if (rhd == VT_NUMBER)
+    if (rhd == DT_NUMBER)
     {
         s2 = numToBool(rhs);
     }
-    else if (rhd == VT_STRING)
+    else if (rhd == DT_STRING)
     {
         s2 = strToBool(rhs);
     }
@@ -502,11 +502,11 @@ std::string xorOp(DataType lhd, std::string lhs, DataType rhd, std::string rhs)
     throwErrorIfNecessary(lhd);
     throwErrorIfNecessary(rhd);
     std::string s1, s2;
-    if (lhd == VT_NUMBER)
+    if (lhd == DT_NUMBER)
     {
         s1 = numToBool(lhs);
     }
-    else if (lhd == VT_STRING)
+    else if (lhd == DT_STRING)
     {
         s1 = strToBool(lhs);
     }
@@ -515,11 +515,11 @@ std::string xorOp(DataType lhd, std::string lhs, DataType rhd, std::string rhs)
         s1 = lhs;
     }
     
-    if (rhd == VT_NUMBER)
+    if (rhd == DT_NUMBER)
     {
         s2 = numToBool(rhs);
     }
-    else if (rhd == VT_STRING)
+    else if (rhd == DT_STRING)
     {
         s2 = strToBool(rhs);
     }
@@ -546,35 +546,35 @@ std::string assOp(DataType lhd, std::string lhs, DataType rhd, std::string rhs)
         return rhs;
     }
     
-    if (lhd == VT_NUMBER)
+    if (lhd == DT_NUMBER)
     {
-        if (rhd == VT_STRING)
+        if (rhd == DT_STRING)
         {
             Dictionary::getRef()->setVarVal(lhs, trimNumber(stringToNum(rhs)));
         }
-        else if (rhd == VT_BOOLEAN)
+        else if (rhd == DT_BOOLEAN)
         {
             Dictionary::getRef()->setVarVal(lhs, trimNumber(boolToNum(rhs)));
         }
     }
-    else if (lhd == VT_BOOLEAN)
+    else if (lhd == DT_BOOLEAN)
     {
-        if (rhd == VT_STRING)
+        if (rhd == DT_STRING)
         {
             Dictionary::getRef()->setVarVal(lhs, strToBool(rhs));
         }
-        else if (rhd == VT_NUMBER)
+        else if (rhd == DT_NUMBER)
         {
             Dictionary::getRef()->setVarVal(lhs, numToBool(rhs));
         }
     }
-    else if (lhd == VT_STRING)
+    else if (lhd == DT_STRING)
     {
-        if (rhd == VT_NUMBER)
+        if (rhd == DT_NUMBER)
         {
             Dictionary::getRef()->setVarVal(lhs, numToString(rhs));
         }
-        else if (rhd == VT_BOOLEAN)
+        else if (rhd == DT_BOOLEAN)
         {
             Dictionary::getRef()->setVarVal(lhs, boolToString(rhs));
         }
@@ -590,11 +590,11 @@ std::string add_assOp(DataType lhd, std::string lhs, DataType rhd, std::string r
     std::string res1 = addOp(lhd, Dictionary::getRef()->getVar(lhs)->getVal(), rhd, rhs);
     TokenType tt = getTokenType(res1);
     if (tt == TT_NUMBER)
-        return assOp(lhd, lhs, VT_NUMBER, res1);
+        return assOp(lhd, lhs, DT_NUMBER, res1);
     else if (tt == TT_BOOLEAN)
-        return assOp(lhd, lhs, VT_BOOLEAN, res1);
+        return assOp(lhd, lhs, DT_BOOLEAN, res1);
     else if (tt == TT_STRING)
-        return assOp(lhd, lhs, VT_STRING, res1);
+        return assOp(lhd, lhs, DT_STRING, res1);
     
     unexpectedType("num or str or bool", "void or undefined");
     return "";
@@ -607,11 +607,11 @@ std::string sub_assOp(DataType lhd, std::string lhs, DataType rhd, std::string r
     std::string res1 = subOp(lhd, Dictionary::getRef()->getVar(lhs)->getVal(), rhd, rhs);
     TokenType tt = getTokenType(res1);
     if (tt == TT_NUMBER)
-        return assOp(lhd, lhs, VT_NUMBER, res1);
+        return assOp(lhd, lhs, DT_NUMBER, res1);
     else if (tt == TT_BOOLEAN)
-        return assOp(lhd, lhs, VT_BOOLEAN, res1);
+        return assOp(lhd, lhs, DT_BOOLEAN, res1);
     else if (tt == TT_STRING)
-        return assOp(lhd, lhs, VT_STRING, res1);
+        return assOp(lhd, lhs, DT_STRING, res1);
     
     unexpectedType("num or str or bool", "void or undefined");
     return "";
@@ -624,11 +624,11 @@ std::string mul_assOp(DataType lhd, std::string lhs, DataType rhd, std::string r
     std::string res1 = mulOp(lhd, Dictionary::getRef()->getVar(lhs)->getVal(), rhd, rhs);
     TokenType tt = getTokenType(res1);
     if (tt == TT_NUMBER)
-        return assOp(lhd, lhs, VT_NUMBER, res1);
+        return assOp(lhd, lhs, DT_NUMBER, res1);
     else if (tt == TT_BOOLEAN)
-        return assOp(lhd, lhs, VT_BOOLEAN, res1);
+        return assOp(lhd, lhs, DT_BOOLEAN, res1);
     else if (tt == TT_STRING)
-        return assOp(lhd, lhs, VT_STRING, res1);
+        return assOp(lhd, lhs, DT_STRING, res1);
     
     unexpectedType("num or str or bool", "void or undefined");
     return "";
@@ -641,11 +641,11 @@ std::string div_assOp(DataType lhd, std::string lhs, DataType rhd, std::string r
     std::string res1 = divOp(lhd, Dictionary::getRef()->getVar(lhs)->getVal(), rhd, rhs);
     TokenType tt = getTokenType(res1);
     if (tt == TT_NUMBER)
-        return assOp(lhd, lhs, VT_NUMBER, res1);
+        return assOp(lhd, lhs, DT_NUMBER, res1);
     else if (tt == TT_BOOLEAN)
-        return assOp(lhd, lhs, VT_BOOLEAN, res1);
+        return assOp(lhd, lhs, DT_BOOLEAN, res1);
     else if (tt == TT_STRING)
-        return assOp(lhd, lhs, VT_STRING, res1);
+        return assOp(lhd, lhs, DT_STRING, res1);
     
     unexpectedType("num or str or bool", "void or undefined");
     return "";
@@ -658,11 +658,11 @@ std::string mod_assOp(DataType lhd, std::string lhs, DataType rhd, std::string r
     std::string res1 = modOp(lhd, Dictionary::getRef()->getVar(lhs)->getVal(), rhd, rhs);
     TokenType tt = getTokenType(res1);
     if (tt == TT_NUMBER)
-        return assOp(lhd, lhs, VT_NUMBER, res1);
+        return assOp(lhd, lhs, DT_NUMBER, res1);
     else if (tt == TT_BOOLEAN)
-        return assOp(lhd, lhs, VT_BOOLEAN, res1);
+        return assOp(lhd, lhs, DT_BOOLEAN, res1);
     else if (tt == TT_STRING)
-        return assOp(lhd, lhs, VT_STRING, res1);
+        return assOp(lhd, lhs, DT_STRING, res1);
     
     unexpectedType("num or str or bool", "void or undefined");
     return "";
@@ -675,11 +675,11 @@ std::string exp_assOp(DataType lhd, std::string lhs, DataType rhd, std::string r
     std::string res1 = expOp(lhd, Dictionary::getRef()->getVar(lhs)->getVal(), rhd, rhs);
     TokenType tt = getTokenType(res1);
     if (tt == TT_NUMBER)
-        return assOp(lhd, lhs, VT_NUMBER, res1);
+        return assOp(lhd, lhs, DT_NUMBER, res1);
     else if (tt == TT_BOOLEAN)
-        return assOp(lhd, lhs, VT_BOOLEAN, res1);
+        return assOp(lhd, lhs, DT_BOOLEAN, res1);
     else if (tt == TT_STRING)
-        return assOp(lhd, lhs, VT_STRING, res1);
+        return assOp(lhd, lhs, DT_STRING, res1);
     
     unexpectedType("num or str or bool", "void or undefined");
     return "";
@@ -687,6 +687,6 @@ std::string exp_assOp(DataType lhd, std::string lhs, DataType rhd, std::string r
 
 void throwErrorIfNecessary(DataType d1)
 {
-    if (d1 == VT_VOID || d1 == VT_UNDEFINED)
+    if (d1 == DT_VOID || d1 == DT_UNDEFINED)
         undefinedData();
 }

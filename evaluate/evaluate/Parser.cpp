@@ -8,13 +8,17 @@
 
 #include "Parser.h"
 
-void parseProgram(TokenStream& ts)
+Function* parseProgram(TokenStream& ts)
 {
+    Function* _main_;
     while (!ts.empty())
     {
         if (nextIsFunction(ts))
         {
-            Functionary::getRef()->addFunction(parseFunction(ts));
+            Function* f = parseFunction(ts);
+            Functionary::getRef()->addFunction(f);
+            if (f->getIdentifier() == "main")
+                _main_ = f;
         }
         else if (nextIsVariable(ts))
         {
@@ -30,6 +34,7 @@ void parseProgram(TokenStream& ts)
             }
         }
     }
+    return _main_;
 }
 
 bool nextIsFunction(TokenStream& ts)
@@ -95,13 +100,13 @@ Function* parseFunction(TokenStream& ts)
 TreeNode* parseStatement(TokenStream& ts)
 {
     if (ts.peek() == "num" || ts.peek() == "str" || ts.peek() == "bool")
-        return new StatementNode(parseDeclaration(ts), NULL);
+        return parseDeclaration(ts);
     else if (ts.peek() == "while")
-        return new StatementNode(parseLoop(ts), NULL);
+        return parseLoop(ts);
     else if (ts.peek() == "if")
-        return new StatementNode(parseConditional(ts), NULL);
+        return parseConditional(ts);
     else if (ts.peek() == "return")
-        return new StatementNode(parseReturn(ts), NULL);
+        return parseReturn(ts);
     else if (ts.peek() == "{")
     {
         std::string garbage;
@@ -110,7 +115,7 @@ TreeNode* parseStatement(TokenStream& ts)
     }
     else
     {
-        TreeNode* ret = new StatementNode(parseExpression(ts), NULL);
+        TreeNode* ret = parseExpression(ts);
         std::string garbage;
         ts >> garbage;
         return ret;
@@ -137,7 +142,7 @@ TreeNode* parseDeclaration(TokenStream& ts)
     DataType dt;
     std::string id, g;
     DeclarationNode* ret;
-	TreeNode* vid,* vex,* vdt;
+	TreeNode* vid,* vex;
 
     dt = stringToDataType(ts.peek());
     
@@ -147,7 +152,6 @@ TreeNode* parseDeclaration(TokenStream& ts)
 
 	vex = NULL;
 	vid = new VariableIdentifierNode(id);
-	vdt = new DataTypeNode(dt);
 
     if (g == "=")
     {
@@ -155,7 +159,7 @@ TreeNode* parseDeclaration(TokenStream& ts)
         ts >> g;
     }
     
-	ret = new DeclarationNode(vdt, vid, vex);
+	ret = new DeclarationNode(dt, vid, vex);
 
     return ret;
 }

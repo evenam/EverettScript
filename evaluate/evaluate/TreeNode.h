@@ -8,7 +8,7 @@ class TreeNode
 {
 public:
     virtual ~TreeNode() {};
-    virtual DataType getReturnType() { return VT_UNDEFINED; };
+    virtual DataType getReturnType() { return DT_UNDEFINED; };
     virtual void print(int tabIndex) {};
 };
 

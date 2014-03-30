@@ -7,17 +7,24 @@
 //
 
 #include "LangMisc.h"
+#include "Dictionary.h"
 
 std::string dataTypeToString(DataType dt)
 {
-    if (dt == VT_NUMBER)
+    if (dt == DT_NUMBER)
         return "num";
-    if (dt == VT_STRING)
+    if (dt == DT_STRING)
         return "str";
-    if (dt == VT_BOOLEAN)
+    if (dt == DT_BOOLEAN)
         return "bool";
-    if (dt == VT_VOID)
+    if (dt == DT_VOID)
         return "void";
+    if (dt == DT_VAR_NUMBER)
+        return "num";
+    if (dt == DT_VAR_STRING)
+        return "str";
+    if (dt == DT_VAR_BOOLEAN)
+        return "bool";
     
     return "undefined";
 }
@@ -25,15 +32,15 @@ std::string dataTypeToString(DataType dt)
 DataType stringToDataType(std::string dt)
 {
     if (dt == "num")
-        return VT_NUMBER;
+        return DT_NUMBER;
     if (dt == "str")
-        return VT_STRING;
+        return DT_STRING;
     if (dt == "bool")
-        return VT_BOOLEAN;
+        return DT_BOOLEAN;
     if (dt == "void")
-        return VT_VOID;
+        return DT_VOID;
     
-    return VT_UNDEFINED;
+    return DT_UNDEFINED;
 }
 
 std::string toLangString(std::string cstr)

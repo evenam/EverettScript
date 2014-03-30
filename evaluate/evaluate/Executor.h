@@ -50,4 +50,7 @@ inline bool checkExpressionNode(TreeNode* obj)
     return false;
 }
 
+extern bool isReturning;
+extern DataType returnType;
+
 #endif /* defined(__evaluate__Executor__) */

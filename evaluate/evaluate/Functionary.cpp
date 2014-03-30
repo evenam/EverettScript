@@ -118,7 +118,7 @@ bool Functionary::functionExists(Function* func)
 DataType Functionary::getFunctionReturnType(std::string name)
 {
     if (lookup(name) == NULL)
-        return VT_VOID;
+        return DT_VOID;
     else
         return (lookup(name)->getReturnType());
 }

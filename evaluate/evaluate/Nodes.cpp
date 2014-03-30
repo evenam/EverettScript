@@ -24,7 +24,7 @@ void NumberNode::print(int tabIndex)
 
 DataType NumberNode::getReturnType()
 {
-    return VT_NUMBER;
+    return DT_NUMBER;
 }
 
 StringNode::StringNode(std::string string)
@@ -51,7 +51,7 @@ void StringNode::print(int tabIndex)
 
 DataType StringNode::getReturnType()
 {
-    return VT_STRING;
+    return DT_STRING;
 }
 
 BooleanNode::BooleanNode(std::string boolean)
@@ -78,7 +78,7 @@ void BooleanNode::print(int tabIndex)
 
 DataType BooleanNode::getReturnType()
 {
-    return VT_BOOLEAN;
+    return DT_BOOLEAN;
 }
 
 StatementNode::StatementNode(TreeNode* current, TreeNode* next)
@@ -120,9 +120,8 @@ void StatementNode::print(int tabIndex)
 
 DataType StatementNode::getReturnType()
 {
-    if (checkObjectType<ReturnNode*>(_current))
-        return _current->getReturnType();
-    return  VT_VOID;
+    if (_current != NULL) _current->getReturnType();
+    return DT_VOID;
 }
 
 UnaryOpNode::UnaryOpNode(std::string op, TreeNode* expression)
@@ -157,22 +156,22 @@ void UnaryOpNode::print(int tabIndex)
 
 DataType UnaryOpNode::getReturnType()
 {
-    if (_op == "+" || _op == "_")
+    if (_op == "+" || _op == "-")
     {
-        if (_operand->getReturnType() == VT_NUMBER)
-            return VT_NUMBER;
+        if (_operand->getReturnType() == DT_NUMBER || _operand->getReturnType() == DT_VAR_NUMBER)
+            return DT_NUMBER;
         else
-            return VT_UNDEFINED;
+            return DT_UNDEFINED;
     }
     else if (_op == "!")
     {
-        if (_operand->getReturnType() != VT_STRING)
-            return VT_BOOLEAN;
+        if (_operand->getReturnType() != DT_STRING || _operand->getReturnType() != DT_VAR_STRING)
+            return DT_BOOLEAN;
         else
-            return VT_UNDEFINED;
+            return DT_UNDEFINED;
     }
     else
-        return VT_UNDEFINED;
+        return DT_UNDEFINED;
 }
 
 BinaryOpNode::BinaryOpNode(std::string op, TreeNode* lhs, TreeNode* rhs)
@@ -218,398 +217,398 @@ void BinaryOpNode::print(int tabIndex)
 DataType BinaryOpNode::getReturnType()
 {
     DataType lhs = _lhs->getReturnType(), rhs = _rhs->getReturnType();
-    if (lhs == VT_UNDEFINED || lhs == VT_VOID || rhs == VT_UNDEFINED || rhs == VT_VOID)
-        return VT_UNDEFINED;
+    if (lhs == DT_UNDEFINED || lhs == DT_VOID || rhs == DT_UNDEFINED || rhs == DT_VOID)
+        return DT_UNDEFINED;
     if (_op == "+")
     {
-        if (lhs == VT_NUMBER)
+        if (lhs == DT_NUMBER || lhs == DT_VAR_NUMBER)
         {
-            if (rhs == VT_NUMBER)
+            if (rhs == DT_NUMBER || rhs == DT_VAR_NUMBER)
             {
-                return VT_NUMBER;
+                return DT_NUMBER;
             }
-            else if (rhs == VT_STRING)
+            else if (rhs == DT_STRING || rhs == DT_VAR_STRING)
             {
-                return VT_UNDEFINED;
+                return DT_UNDEFINED;
             }
             else
             {
-                return VT_NUMBER;
+                return DT_NUMBER;
             }
         }
-        else if (lhs == VT_STRING)
+        else if (lhs == DT_STRING || lhs == DT_VAR_STRING)
         {
-            if (rhs == VT_NUMBER)
+            if (rhs == DT_NUMBER || rhs == DT_VAR_NUMBER)
             {
-                return VT_STRING;
+                return DT_STRING;
             }
-            else if (rhs == VT_STRING)
+            else if (rhs == DT_STRING || rhs == DT_VAR_STRING)
             {
-                return VT_STRING;
+                return DT_STRING;
             }
             else
             {
-                return VT_STRING;
+                return DT_STRING;
             }
         }
         else
         {
-            if (rhs == VT_NUMBER)
+            if (rhs == DT_NUMBER || rhs == DT_VAR_NUMBER)
             {
-                return VT_NUMBER;
+                return DT_NUMBER;
             }
-            else if (rhs == VT_STRING)
+            else if (rhs == DT_STRING || rhs == DT_VAR_STRING)
             {
-                return VT_UNDEFINED;
+                return DT_UNDEFINED;
             }
             else
             {
-                return VT_NUMBER;
+                return DT_NUMBER;
             }
         }
     }
     else if (_op == "-")
     {
-        if (lhs == VT_NUMBER)
+        if (lhs == DT_NUMBER)
         {
-            if (rhs == VT_NUMBER)
+            if (rhs == DT_NUMBER)
             {
-                return VT_NUMBER;
+                return DT_NUMBER;
             }
-            else if (rhs == VT_STRING)
+            else if (rhs == DT_STRING)
             {
-                return VT_UNDEFINED;
+                return DT_UNDEFINED;
             }
             else
             {
-                return VT_NUMBER;
+                return DT_NUMBER;
             }
         }
-        else if (lhs == VT_STRING)
+        else if (lhs == DT_STRING)
         {
-            if (rhs == VT_NUMBER)
+            if (rhs == DT_NUMBER)
             {
-                return VT_UNDEFINED;
+                return DT_UNDEFINED;
             }
-            else if (rhs == VT_STRING)
+            else if (rhs == DT_STRING)
             {
-                return VT_UNDEFINED;
+                return DT_UNDEFINED;
             }
             else
             {
-                return VT_UNDEFINED;
+                return DT_UNDEFINED;
             }
         }
         else
         {
-            if (rhs == VT_NUMBER)
+            if (rhs == DT_NUMBER)
             {
-                return VT_NUMBER;
+                return DT_NUMBER;
             }
-            else if (rhs == VT_STRING)
+            else if (rhs == DT_STRING)
             {
-                return VT_UNDEFINED;
+                return DT_UNDEFINED;
             }
             else
             {
-                return VT_NUMBER;
+                return DT_NUMBER;
             }
         }
     }
     else if (_op == "*")
     {
-        if (lhs == VT_NUMBER)
+        if (lhs == DT_NUMBER)
         {
-            if (rhs == VT_NUMBER)
+            if (rhs == DT_NUMBER)
             {
-                return VT_NUMBER;
+                return DT_NUMBER;
             }
-            else if (rhs == VT_STRING)
+            else if (rhs == DT_STRING)
             {
-                return VT_UNDEFINED;
+                return DT_UNDEFINED;
             }
             else
             {
-                return VT_NUMBER;
+                return DT_NUMBER;
             }
         }
-        else if (lhs == VT_STRING)
+        else if (lhs == DT_STRING)
         {
-            if (rhs == VT_NUMBER)
+            if (rhs == DT_NUMBER)
             {
-                return VT_UNDEFINED;
+                return DT_UNDEFINED;
             }
-            else if (rhs == VT_STRING)
+            else if (rhs == DT_STRING)
             {
-                return VT_UNDEFINED;
+                return DT_UNDEFINED;
             }
             else
             {
-                return VT_UNDEFINED;
+                return DT_UNDEFINED;
             }
         }
         else
         {
-            if (rhs == VT_NUMBER)
+            if (rhs == DT_NUMBER)
             {
-                return VT_NUMBER;
+                return DT_NUMBER;
             }
-            else if (rhs == VT_STRING)
+            else if (rhs == DT_STRING)
             {
-                return VT_UNDEFINED;
+                return DT_UNDEFINED;
             }
             else
             {
-                return VT_BOOLEAN;
+                return DT_BOOLEAN;
             }
         }
     }
     else if (_op == "%")
     {
-        if (lhs == VT_NUMBER)
+        if (lhs == DT_NUMBER)
         {
-            if (rhs == VT_NUMBER)
+            if (rhs == DT_NUMBER)
             {
-                return VT_NUMBER;
+                return DT_NUMBER;
             }
-            else if (rhs == VT_STRING)
+            else if (rhs == DT_STRING)
             {
-                return VT_UNDEFINED;
+                return DT_UNDEFINED;
             }
             else
             {
-                return VT_UNDEFINED;
+                return DT_UNDEFINED;
             }
         }
-        else if (lhs == VT_STRING)
+        else if (lhs == DT_STRING)
         {
-            if (rhs == VT_NUMBER)
+            if (rhs == DT_NUMBER)
             {
-                return VT_UNDEFINED;
+                return DT_UNDEFINED;
             }
-            else if (rhs == VT_STRING)
+            else if (rhs == DT_STRING)
             {
-                return VT_UNDEFINED;
+                return DT_UNDEFINED;
             }
             else
             {
-                return VT_UNDEFINED;
+                return DT_UNDEFINED;
             }
         }
         else
         {
-            if (rhs == VT_NUMBER)
+            if (rhs == DT_NUMBER)
             {
-                return VT_NUMBER;
+                return DT_NUMBER;
             }
-            else if (rhs == VT_STRING)
+            else if (rhs == DT_STRING)
             {
-                return VT_UNDEFINED;
+                return DT_UNDEFINED;
             }
             else
             {
-                return VT_UNDEFINED;
+                return DT_UNDEFINED;
             }
         }
     }
     else if (_op == "/")
     {
-        if (lhs == VT_NUMBER)
+        if (lhs == DT_NUMBER)
         {
-            if (rhs == VT_NUMBER)
+            if (rhs == DT_NUMBER)
             {
-                return VT_NUMBER;
+                return DT_NUMBER;
             }
-            else if (rhs == VT_STRING)
+            else if (rhs == DT_STRING)
             {
-                return VT_UNDEFINED;
+                return DT_UNDEFINED;
             }
             else
             {
-                return VT_UNDEFINED;
+                return DT_UNDEFINED;
             }
         }
-        else if (lhs == VT_STRING)
+        else if (lhs == DT_STRING)
         {
-            if (rhs == VT_NUMBER)
+            if (rhs == DT_NUMBER)
             {
-                return VT_UNDEFINED;
+                return DT_UNDEFINED;
             }
-            else if (rhs == VT_STRING)
+            else if (rhs == DT_STRING)
             {
-                return VT_UNDEFINED;
+                return DT_UNDEFINED;
             }
             else
             {
-                return VT_UNDEFINED;
+                return DT_UNDEFINED;
             }
         }
         else
         {
-            if (rhs == VT_NUMBER)
+            if (rhs == DT_NUMBER)
             {
-                return VT_NUMBER;
+                return DT_NUMBER;
             }
-            else if (rhs == VT_STRING)
+            else if (rhs == DT_STRING)
             {
-                return VT_UNDEFINED;
+                return DT_UNDEFINED;
             }
             else
             {
-                return VT_UNDEFINED;
+                return DT_UNDEFINED;
             }
         }
     }
     else if (_op == "^")
     {
-        if (lhs == VT_NUMBER)
+        if (lhs == DT_NUMBER)
         {
-            if (rhs == VT_NUMBER)
+            if (rhs == DT_NUMBER)
             {
-                return VT_NUMBER;
+                return DT_NUMBER;
             }
-            else if (rhs == VT_STRING)
+            else if (rhs == DT_STRING)
             {
-                return VT_UNDEFINED;
+                return DT_UNDEFINED;
             }
             else
             {
-                return VT_NUMBER;
+                return DT_NUMBER;
             }
         }
-        else if (lhs == VT_STRING)
+        else if (lhs == DT_STRING)
         {
-            if (rhs == VT_NUMBER)
+            if (rhs == DT_NUMBER)
             {
-                return VT_STRING;
+                return DT_STRING;
             }
-            else if (rhs == VT_STRING)
+            else if (rhs == DT_STRING)
             {
-                return VT_UNDEFINED;
+                return DT_UNDEFINED;
             }
             else
             {
-                return VT_STRING;
+                return DT_STRING;
             }
         }
         else
         {
-            if (rhs == VT_NUMBER)
+            if (rhs == DT_NUMBER)
             {
-                return VT_BOOLEAN;
+                return DT_BOOLEAN;
             }
-            else if (rhs == VT_STRING)
+            else if (rhs == DT_STRING)
             {
-                return VT_UNDEFINED;
+                return DT_UNDEFINED;
             }
             else
             {
-                return VT_BOOLEAN;
+                return DT_BOOLEAN;
             }
         }
     }
     else if (_op == "=" || _op == "+=" || _op == "*=" || _op == "/=" || _op == "&=" || _op == "^=")
     {
-        if (lhs == VT_NUMBER)
+        if (lhs == DT_NUMBER)
         {
-            if (rhs == VT_NUMBER)
+            if (rhs == DT_NUMBER)
             {
-                return VT_NUMBER;
+                return DT_NUMBER;
             }
-            else if (rhs == VT_STRING)
+            else if (rhs == DT_STRING)
             {
-                return VT_UNDEFINED;
+                return DT_UNDEFINED;
             }
             else
             {
-                return VT_NUMBER;
+                return DT_NUMBER;
             }
         }
-        else if (lhs == VT_STRING)
+        else if (lhs == DT_STRING)
         {
-            if (rhs == VT_STRING)
+            if (rhs == DT_STRING)
             {
-                return VT_STRING;
+                return DT_STRING;
             }
-            else if (rhs == VT_STRING)
+            else if (rhs == DT_STRING)
             {
-                return VT_STRING;
+                return DT_STRING;
             }
             else
             {
-                return VT_STRING;
+                return DT_STRING;
             }
         }
         else
         {
-            if (rhs == VT_NUMBER)
+            if (rhs == DT_NUMBER)
             {
-                return VT_BOOLEAN;
+                return DT_BOOLEAN;
             }
-            else if (rhs == VT_STRING)
+            else if (rhs == DT_STRING)
             {
-                return VT_UNDEFINED;
+                return DT_UNDEFINED;
             }
             else
             {
-                return VT_BOOLEAN;
+                return DT_BOOLEAN;
             }
         }
     }
     else if (_op == "^^" || _op == "||" || _op == "&&")
     {
-        if (lhs == VT_NUMBER)
+        if (lhs == DT_NUMBER)
         {
-            if (rhs == VT_NUMBER)
+            if (rhs == DT_NUMBER)
             {
-                return VT_BOOLEAN;
+                return DT_BOOLEAN;
             }
-            else if (rhs == VT_STRING)
+            else if (rhs == DT_STRING)
             {
-                return VT_UNDEFINED;
+                return DT_UNDEFINED;
             }
             else
             {
-                return VT_BOOLEAN;
+                return DT_BOOLEAN;
             }
         }
-        else if (lhs == VT_STRING)
+        else if (lhs == DT_STRING)
         {
-            if (rhs == VT_STRING)
+            if (rhs == DT_STRING)
             {
-                return VT_UNDEFINED;
+                return DT_UNDEFINED;
             }
-            else if (rhs == VT_STRING)
+            else if (rhs == DT_STRING)
             {
-                return VT_UNDEFINED;
+                return DT_UNDEFINED;
             }
             else
             {
-                return VT_UNDEFINED;
+                return DT_UNDEFINED;
             }
         }
         else
         {
-            if (rhs == VT_NUMBER)
+            if (rhs == DT_NUMBER)
             {
-                return VT_BOOLEAN;
+                return DT_BOOLEAN;
             }
-            else if (rhs == VT_STRING)
+            else if (rhs == DT_STRING)
             {
-                return VT_UNDEFINED;
+                return DT_UNDEFINED;
             }
             else
             {
-                return VT_BOOLEAN;
+                return DT_BOOLEAN;
             }
         }
     }
     else if (_op == ">" || _op == "<" || _op == "==" || _op == "!=" || _op == ">=" || _op == "<=")
     {
-        return VT_BOOLEAN;
+        return DT_BOOLEAN;
     }
     else
-        return VT_UNDEFINED;
+        return DT_UNDEFINED;
 }
 
 LoopNode::LoopNode(TreeNode* exp, TreeNode* clause)
@@ -655,7 +654,7 @@ void LoopNode::print(int tabIndex)
 
 DataType LoopNode::getReturnType()
 {
-    return VT_VOID;
+    return DT_VOID;
 }
 
 VariableIdentifierNode::VariableIdentifierNode(std::string identifier)
@@ -683,33 +682,6 @@ void VariableIdentifierNode::print(int tabIndex)
 DataType VariableIdentifierNode::getReturnType()
 {
     return Dictionary::getRef()->getVar(_id)->getType();
-}
-
-DataTypeNode::DataTypeNode(DataType data_type)
-{
-    _dt = data_type;
-}
-
-DataTypeNode::~DataTypeNode()
-{
-    _dt = VT_VOID;
-}
-
-DataType DataTypeNode::getDataType()
-{
-    return _dt;
-}
-
-void DataTypeNode::print(int tabIndex)
-{
-    for (int i = 0; i < tabIndex; i ++)
-        std::cout << "\t";
-    std::cout << "Data Type: " << _dt << std::endl;
-}
-
-DataType DataTypeNode::getReturnType()
-{
-    return VT_VOID;
 }
 
 FunctionCallNode::FunctionCallNode(std::string identifier, std::vector<TreeNode*> args)
@@ -743,14 +715,15 @@ void FunctionCallNode::print(int tabIndex)
 {
     for (int i = 0; i < tabIndex; i ++)
         std::cout << "\t";
-    std::cout << "Function Call: " << _id << std::endl;
-    for (int i = 0; i < tabIndex; i ++)
+    std::cout << "Function Call: " << _id << "\t";
+    std::cout << "Returning: " << dataTypeToString((isBuiltin(_id)?getBuiltinDataType(_id):Functionary::getRef()->getFunction(_id)->getReturnType())) << std::endl;
+    for (int i = 0; i < tabIndex + 1; i ++)
         std::cout << "\t";
     std::cout << "Arguments:" << std::endl;
     for (int i = 0; i < _args.size(); i ++)
     {
         if (_args[i] != NULL)
-            _args[i]->print(tabIndex + 1);
+            _args[i]->print(tabIndex + 2);
     }
 }
 
@@ -790,7 +763,7 @@ DataType ReturnNode::getReturnType()
     return _exp->getReturnType();
 }
 
-DeclarationNode::DeclarationNode(TreeNode* data_type, TreeNode* identifier, TreeNode* expression)
+DeclarationNode::DeclarationNode(DataType data_type, TreeNode* identifier, TreeNode* expression)
 {
     _dt = data_type;
     _id = identifier;
@@ -801,10 +774,9 @@ DeclarationNode::~DeclarationNode()
 {
     delete _exp;
     delete _id;
-    delete _dt;
 }
 
-TreeNode* DeclarationNode::getDataType()
+DataType DeclarationNode::getDataType()
 {
     return _dt;
 }
@@ -823,11 +795,7 @@ void DeclarationNode::print(int tabIndex)
 {
     for (int i = 0; i < tabIndex; i ++)
         std::cout << "\t";
-    std::cout << "Data Type:" << std::endl;
-    if (_dt != NULL)
-    {
-        _dt->print(tabIndex + 1);
-    }
+    std::cout << "Data Type: " << dataTypeToString(_dt) << std::endl;
     for (int i = 0; i < tabIndex; i ++)
         std::cout << "\t";
     std::cout << "New Variable:" << std::endl;
@@ -846,7 +814,7 @@ void DeclarationNode::print(int tabIndex)
 
 DataType DeclarationNode::getReturnType()
 {
-    return VT_VOID;
+    return DT_VOID;
 }
 
 ConditionalNode::ConditionalNode(TreeNode* exp, TreeNode* true_, TreeNode* false_)
@@ -906,5 +874,5 @@ void ConditionalNode::print(int tabIndex)
 
 DataType ConditionalNode::getReturnType()
 {
-    return VT_VOID;
+    return DT_VOID;
 }

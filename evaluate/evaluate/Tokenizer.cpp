@@ -383,11 +383,11 @@ DataType getDataType(std::string data)
 {
     TokenType tt = getTokenType(data);
     if (tt == TT_NUMBER)
-        return VT_NUMBER;
+        return DT_NUMBER;
     if (tt == TT_STRING)
-        return VT_STRING;
+        return DT_STRING;
     if (tt == TT_BOOLEAN)
-        return VT_BOOLEAN;
+        return DT_BOOLEAN;
     unidentifiedData(data);
-    return VT_UNDEFINED;
+    return DT_UNDEFINED;
 }

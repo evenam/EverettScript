@@ -11,11 +11,14 @@
 
 enum DataType
 {
-    VT_NUMBER,
-    VT_BOOLEAN,
-    VT_STRING,
-    VT_VOID,
-    VT_UNDEFINED
+    DT_NUMBER,
+    DT_BOOLEAN,
+    DT_STRING,
+    DT_VOID,
+    DT_VAR_NUMBER,
+    DT_VAR_STRING,
+    DT_VAR_BOOLEAN,
+    DT_UNDEFINED
 };
 
 #endif
