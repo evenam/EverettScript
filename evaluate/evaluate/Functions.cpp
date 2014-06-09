@@ -7,6 +7,7 @@
 //
 
 #include "Functions.h"
+#include "Dictionary.h"
 
 bool isBuiltin(std::string name)
 {
@@ -98,6 +99,8 @@ std::string str_fmt(std::string fmt /* lang_str */, std::vector<std::string> arg
             i ++;
             if ((*i) == '@')
             {
+                if (getTokenType(args[j]) == TT_IDENTIFIER)
+                    args[j] = Dictionary::getRef()->getVarVal(args[j]);
                 if (getTokenType(args[j]) == TT_STRING)
                     args[j] = toCString(args[j]);
                 res += args[j++];

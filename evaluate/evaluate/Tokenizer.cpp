@@ -7,6 +7,7 @@
 //
 
 #include "Tokenizer.h"
+#include "Dictionary.h"
 
 TokenType getTokenType(std::string tkn)
 {
@@ -382,6 +383,10 @@ std::string strToBool(std::string str)
 DataType getDataType(std::string data)
 {
     TokenType tt = getTokenType(data);
+    if (tt == TT_IDENTIFIER)
+    {
+        return (getDataType(Dictionary::getRef()->getVarVal(data)));
+    }
     if (tt == TT_NUMBER)
         return DT_NUMBER;
     if (tt == TT_STRING)

@@ -269,7 +269,7 @@ std::string executeStatementNode(StatementNode* node)
 {
     std::string ret;
     if (node->getCurrent() != NULL)
-        return evaluate(node->getCurrent());
+        evaluate(node->getCurrent());
     return evaluate(node->getNext());
 }
 
